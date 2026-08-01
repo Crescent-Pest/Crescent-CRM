@@ -52,7 +52,7 @@ export default async function TodayPage({
     <div className="mx-auto max-w-2xl">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
+          <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
             My Day
           </h1>
           <p className="mt-1 text-ink-soft">

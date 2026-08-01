@@ -96,7 +96,7 @@ export default async function AppLayout({
         </header>
 
         {/* pb-24 keeps the last card clear of the fixed mobile tab bar */}
-        <main className="grain min-w-0 flex-1 px-4 py-6 pb-24 md:px-8 md:py-8 md:pb-8">
+        <main className="grain min-w-0 flex-1 px-4 py-4 pb-24 md:px-8 md:py-8 md:pb-8">
           {children}
         </main>
       </div>

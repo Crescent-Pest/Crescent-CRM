@@ -16,11 +16,14 @@ export function telHref(phone: string | null | undefined) {
 export function PhoneLink({
   phone,
   icon = false,
+  iconOnly = false,
   iconSize = 14,
   className = "inline-flex items-center gap-1.5 text-denim hover:underline",
 }: {
   phone: string | null | undefined;
   icon?: boolean;
+  /** show just the icon (number stays available to screen readers) */
+  iconOnly?: boolean;
   iconSize?: number;
   className?: string;
 }) {
@@ -28,9 +31,15 @@ export function PhoneLink({
   if (!href) return null;
 
   return (
-    <a href={href} className={className}>
-      {icon && <Phone size={iconSize} className="shrink-0 text-gold-deep" />}
-      <span>{phone}</span>
+    <a
+      href={href}
+      className={className}
+      aria-label={iconOnly ? `Call ${phone}` : undefined}
+    >
+      {(icon || iconOnly) && (
+        <Phone size={iconSize} className="shrink-0 text-gold-deep" />
+      )}
+      {!iconOnly && <span>{phone}</span>}
     </a>
   );
 }

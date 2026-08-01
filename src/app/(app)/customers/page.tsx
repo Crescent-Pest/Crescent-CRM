@@ -54,7 +54,7 @@ export default async function CustomersPage({
   return (
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
+        <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
           Customers
         </h1>
         <Link href="/customers/new" className="btn-primary btn-tap">

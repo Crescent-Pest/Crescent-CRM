@@ -11,7 +11,7 @@ export default function AccountPage() {
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
+      <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
         My account
       </h1>
 

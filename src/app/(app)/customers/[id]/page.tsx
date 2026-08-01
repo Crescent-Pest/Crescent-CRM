@@ -91,7 +91,7 @@ export default async function CustomerDetailPage({
 
       <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-4xl font-bold uppercase tracking-wide text-denim-ink">
+          <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
             {customerName(customer)}
           </h1>
           <p className="mt-1 capitalize text-ink-soft">

@@ -98,7 +98,7 @@ export default async function DashboardPage() {
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
+          <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
             Dispatch Board
           </h1>
           <p className="mt-1 text-ink-soft">{formatLongDate(today)}</p>
@@ -106,28 +106,30 @@ export default async function DashboardPage() {
         <QuickAdd />
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="mt-4 grid grid-cols-4 gap-2 md:mt-6 md:gap-4">
         {stats.map((s) => (
           <div
             key={s.label}
-            className={`rounded-lg border bg-card p-4 ${
+            className={`rounded-md border bg-card p-2 text-center md:rounded-lg md:p-4 md:text-left ${
               s.alert ? "border-danger/40" : "border-line"
             }`}
           >
             <p
-              className={`font-display text-3xl font-bold md:text-4xl ${
+              className={`font-display text-xl font-bold md:text-4xl ${
                 s.alert ? "text-danger" : "text-denim"
               }`}
             >
               {s.value}
             </p>
-            <p className="label mb-0 mt-1">{s.label}</p>
+            <p className="label mb-0 mt-0.5 text-[10px] leading-tight tracking-[0.08em] md:mt-1 md:text-xs md:tracking-[0.12em]">
+              {s.label}
+            </p>
           </div>
         ))}
       </div>
 
       {unscheduledPlans.length > 0 && (
-        <section className="mt-8">
+        <section className="mt-6 md:mt-8">
           <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-gold-deep">
             <CalendarClock size={18} /> Plans needing scheduling
           </h2>
@@ -140,7 +142,7 @@ export default async function DashboardPage() {
       )}
 
       {overdue.length > 0 && (
-        <section className="mt-8">
+        <section className="mt-6 md:mt-8">
           <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-danger">
             <AlertTriangle size={18} /> Needs attention
           </h2>
@@ -152,7 +154,7 @@ export default async function DashboardPage() {
         </section>
       )}
 
-      <section className="mt-8">
+      <section className="mt-6 md:mt-8">
         <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
           Today&apos;s run
         </h2>
@@ -169,7 +171,7 @@ export default async function DashboardPage() {
         )}
       </section>
 
-      <section className="mt-8">
+      <section className="mt-6 md:mt-8">
         <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
           Coming up
         </h2>

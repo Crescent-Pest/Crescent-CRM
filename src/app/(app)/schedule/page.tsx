@@ -33,7 +33,7 @@ export default async function SchedulePage({
   return (
     <div className="mx-auto max-w-4xl">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
+        <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
           Schedule
         </h1>
         <div className="flex flex-wrap items-center gap-2">

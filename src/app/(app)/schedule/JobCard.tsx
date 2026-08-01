@@ -10,7 +10,7 @@ export function JobCard({ job }: { job: JobRow }) {
   const cust = job.property?.customer;
 
   return (
-    <div className="rounded-lg border border-line bg-card p-4">
+    <div className="rounded-lg border border-line bg-card p-3 md:p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="font-semibold">
@@ -34,7 +34,7 @@ export function JobCard({ job }: { job: JobRow }) {
         <StatusBadge status={job.status} />
       </div>
 
-      <div className="mt-3 flex flex-col gap-3 border-t border-line pt-3 md:flex-row md:flex-wrap md:items-start md:justify-between">
+      <div className="mt-2.5 flex flex-col gap-2 border-t border-line pt-2.5 md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-3">
         <p className="text-sm text-ink-soft">
           {formatWindow(job.window_start, job.window_end)}
           <span className="mx-1.5">·</span>
