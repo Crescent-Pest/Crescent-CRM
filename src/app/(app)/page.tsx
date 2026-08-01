@@ -1,0 +1,138 @@
+import Link from "next/link";
+import { AlertTriangle, Plus } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { fetchJobsBetween, fetchOverdueJobs, type JobRow } from "@/lib/queries";
+import { addDaysISO, formatDate, formatLongDate, formatWindow, todayISO } from "@/lib/format";
+import { customerName } from "@/lib/types";
+import { StatusBadge } from "@/components/StatusBadge";
+
+function JobLine({ job, showDate = false }: { job: JobRow; showDate?: boolean }) {
+  const cust = job.property?.customer;
+  return (
+    <li className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-line px-4 py-3 last:border-b-0">
+      <div className="min-w-0 flex-1">
+        <p className="truncate font-semibold">
+          {job.title}
+          {cust && (
+            <span className="font-normal text-ink-soft"> · {customerName(cust)}</span>
+          )}
+        </p>
+        <p className="truncate text-sm text-ink-soft">
+          {job.property ? `${job.property.address_line1}, ${job.property.city}` : "—"}
+          {job.assigned && ` · ${job.assigned.full_name}`}
+        </p>
+      </div>
+      <span className="text-sm text-ink-soft">
+        {showDate && `${formatDate(job.scheduled_date)} · `}
+        {formatWindow(job.window_start, job.window_end)}
+      </span>
+      <StatusBadge status={job.status} />
+    </li>
+  );
+}
+
+export default async function DashboardPage() {
+  const today = todayISO();
+  const supabase = await createClient();
+
+  const [todayJobs, weekJobs, overdue, customerCount] = await Promise.all([
+    fetchJobsBetween(today, today),
+    fetchJobsBetween(addDaysISO(today, 1), addDaysISO(today, 7)),
+    fetchOverdueJobs(today),
+    supabase
+      .from("customers")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "active")
+      .then(({ count }) => count ?? 0),
+  ]);
+
+  const stats = [
+    { label: "Jobs today", value: todayJobs.filter((j) => j.status !== "canceled").length },
+    { label: "Next 7 days", value: weekJobs.filter((j) => j.status === "scheduled").length },
+    { label: "Overdue", value: overdue.length, alert: overdue.length > 0 },
+    { label: "Active customers", value: customerCount },
+  ];
+
+  return (
+    <div className="mx-auto max-w-5xl">
+      <div className="flex items-end justify-between">
+        <div>
+          <h1 className="font-display text-4xl font-bold uppercase tracking-wide text-denim-ink">
+            Dispatch Board
+          </h1>
+          <p className="mt-1 text-ink-soft">{formatLongDate(today)}</p>
+        </div>
+        <Link href="/schedule/new" className="btn-primary">
+          <Plus size={16} /> New job
+        </Link>
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+        {stats.map((s) => (
+          <div
+            key={s.label}
+            className={`rounded-lg border bg-card p-4 ${
+              s.alert ? "border-danger/40" : "border-line"
+            }`}
+          >
+            <p className={`font-display text-4xl font-bold ${s.alert ? "text-danger" : "text-denim"}`}>
+              {s.value}
+            </p>
+            <p className="label mb-0 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {overdue.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-danger">
+            <AlertTriangle size={18} /> Needs attention
+          </h2>
+          <ul className="rounded-lg border border-danger/40 bg-card">
+            {overdue.map((j) => (
+              <JobLine key={j.id} job={j} showDate />
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="mt-8">
+        <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+          Today&apos;s run
+        </h2>
+        {todayJobs.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-line bg-card px-4 py-8 text-center text-ink-soft">
+            Nothing on the board today.
+          </p>
+        ) : (
+          <ul className="rounded-lg border border-line bg-card">
+            {todayJobs.map((j) => (
+              <JobLine key={j.id} job={j} />
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="mt-8">
+        <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+          Coming up
+        </h2>
+        {weekJobs.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-line bg-card px-4 py-8 text-center text-ink-soft">
+            No jobs scheduled in the next 7 days.{" "}
+            <Link href="/schedule/new" className="font-semibold text-denim underline">
+              Schedule one
+            </Link>
+            .
+          </p>
+        ) : (
+          <ul className="rounded-lg border border-line bg-card">
+            {weekJobs.slice(0, 8).map((j) => (
+              <JobLine key={j.id} job={j} showDate />
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+}

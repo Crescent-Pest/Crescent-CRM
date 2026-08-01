@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --denim: #46618f;
+  --denim-deep: #34496e;
+  --denim-ink: #1d2a42;
+  --gold: #f2b02e;
+  --gold-deep: #d99a15;
+  --paper: #f5f3ec;
+  --card: #fffdf8;
+  --line: #e2ddd0;
+  --ink: #232a38;
+  --ink-soft: #6b7280;
+  --ok: #3e7c4f;
+  --danger: #b3402f;
+}
+
+@theme inline {
+  --color-denim: var(--denim);
+  --color-denim-deep: var(--denim-deep);
+  --color-denim-ink: var(--denim-ink);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ok: var(--ok);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-barlow);
+  --font-display: var(--font-barlow-condensed);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-barlow), sans-serif;
+}
+
+/* subtle paper grain so large surfaces don't feel flat */
+.grain {
+  background-image: radial-gradient(rgba(70, 97, 143, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.font-display {
+  font-family: var(--font-barlow-condensed), sans-serif;
+}
+
+/* shared form controls */
+.field {
+  @apply w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-ink
+    placeholder:text-ink-soft/60 focus:border-denim focus:outline-none
+    focus:ring-2 focus:ring-denim/20;
+}
+
+.btn-primary {
+  @apply inline-flex items-center gap-2 rounded-md bg-denim px-4 py-2 text-sm
+    font-semibold text-white transition-colors hover:bg-denim-deep
+    focus:outline-none focus:ring-2 focus:ring-denim/40 disabled:opacity-50;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center gap-2 rounded-md border border-line bg-white
+    px-3 py-1.5 text-sm font-medium text-ink transition-colors hover:border-denim
+    hover:text-denim focus:outline-none focus:ring-2 focus:ring-denim/20;
+}
+
+.label {
+  @apply mb-1 block font-display text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft;
+}
