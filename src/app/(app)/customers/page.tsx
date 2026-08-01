@@ -88,16 +88,16 @@ export default async function CustomersPage({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b-2 border-gold/60 bg-denim-ink text-left text-white">
-              <th className="px-4 py-2.5 font-display font-semibold uppercase tracking-wider">Name</th>
-              <th className="hidden px-4 py-2.5 font-display font-semibold uppercase tracking-wider md:table-cell">
+              <th className="px-3 py-2 md:px-4 font-display font-semibold uppercase tracking-wider">Name</th>
+              <th className="hidden px-3 py-2 md:px-4 font-display font-semibold uppercase tracking-wider md:table-cell">
                 Type
               </th>
-              <th className="px-4 py-2.5 font-display font-semibold uppercase tracking-wider">Phone</th>
-              <th className="hidden px-4 py-2.5 font-display font-semibold uppercase tracking-wider md:table-cell">
+              <th className="px-3 py-2 md:px-4 font-display font-semibold uppercase tracking-wider">Phone</th>
+              <th className="hidden px-3 py-2 md:px-4 font-display font-semibold uppercase tracking-wider md:table-cell">
                 Email
               </th>
-              <th className="px-4 py-2.5 font-display font-semibold uppercase tracking-wider">Status</th>
-              <th className="w-12 px-2 py-2.5">
+              <th className="px-3 py-2 md:px-4 font-display font-semibold uppercase tracking-wider">Status</th>
+              <th className="w-12 px-1 py-2 md:px-2">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
@@ -114,7 +114,7 @@ export default async function CustomersPage({
               const address = primaryAddress(c);
               return (
                 <tr key={c.id} className="border-b border-line last:border-b-0 hover:bg-denim/5">
-                  <td className="px-4 py-2.5">
+                  <td className="px-3 py-2 md:px-4">
                     <Link
                       href={`/customers/${c.id}`}
                       className="font-semibold text-denim hover:underline"
@@ -123,14 +123,21 @@ export default async function CustomersPage({
                     </Link>
                     <p className="text-xs text-ink-soft">{address ?? "No address on file"}</p>
                   </td>
-                  <td className="hidden px-4 py-2.5 capitalize text-ink-soft md:table-cell">
+                  <td className="hidden px-3 py-2 md:px-4 capitalize text-ink-soft md:table-cell">
                     {c.type}
                   </td>
-                  <td className="px-4 py-2.5">
-                    {c.phone ? <PhoneLink phone={c.phone} /> : "—"}
+                  <td className="px-3 py-2 md:px-4">
+                    {c.phone ? (
+                      <PhoneLink
+                        phone={c.phone}
+                        className="inline-flex items-center gap-1.5 whitespace-nowrap text-denim hover:underline"
+                      />
+                    ) : (
+                      "—"
+                    )}
                   </td>
-                  <td className="hidden px-4 py-2.5 md:table-cell">{c.email ?? "—"}</td>
-                  <td className="px-4 py-2.5">
+                  <td className="hidden px-3 py-2 md:px-4 md:table-cell">{c.email ?? "—"}</td>
+                  <td className="px-3 py-2 md:px-4">
                     <span
                       className={`font-display text-xs font-semibold uppercase tracking-wider ${
                         c.status === "active" ? "text-ok" : "text-ink-soft"
@@ -139,7 +146,7 @@ export default async function CustomersPage({
                       {c.status}
                     </span>
                   </td>
-                  <td className="px-2 py-2.5 text-right">
+                  <td className="px-1 py-2 md:px-2 text-right">
                     <CustomerMenu
                       id={c.id}
                       name={customerName(c)}
