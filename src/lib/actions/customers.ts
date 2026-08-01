@@ -53,6 +53,25 @@ export async function createCustomer(formData: FormData) {
   redirect(`/customers/${data.id}`);
 }
 
+/** Hard delete — cascades to properties, plans, jobs, and notes */
+export async function deleteCustomer(formData: FormData) {
+  const id = str(formData, "id");
+  if (!id) return;
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("customers").delete().eq("id", id);
+
+  if (error) {
+    redirect(`/customers?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/customers");
+  revalidatePath("/");
+  revalidatePath("/schedule");
+  revalidatePath("/today");
+  redirect("/customers");
+}
+
 export async function updateCustomer(formData: FormData) {
   const id = str(formData, "id");
   if (!id) redirect("/customers");

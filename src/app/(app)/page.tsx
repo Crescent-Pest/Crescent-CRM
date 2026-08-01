@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { AlertTriangle, CalendarClock, Plus } from "lucide-react";
+import { AlertTriangle, CalendarClock } from "lucide-react";
+import { QuickAdd } from "@/components/QuickAdd";
 import { createClient } from "@/lib/supabase/server";
 import {
   fetchJobsBetween,
@@ -102,9 +103,7 @@ export default async function DashboardPage() {
           </h1>
           <p className="mt-1 text-ink-soft">{formatLongDate(today)}</p>
         </div>
-        <Link href="/schedule/new" className="btn-primary">
-          <Plus size={16} /> New job
-        </Link>
+        <QuickAdd />
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">

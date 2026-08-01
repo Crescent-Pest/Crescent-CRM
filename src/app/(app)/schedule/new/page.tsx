@@ -12,9 +12,10 @@ interface PropertyOption extends Property {
 export default async function NewJobPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; property?: string }>;
+  searchParams: Promise<{ error?: string; property?: string; estimate?: string }>;
 }) {
-  const { error, property } = await searchParams;
+  const { error, property, estimate } = await searchParams;
+  const isEstimate = estimate === "1";
   const supabase = await createClient();
 
   const [{ data: propData }, { data: techData }] = await Promise.all([
@@ -39,7 +40,7 @@ export default async function NewJobPage({
         <ArrowLeft size={14} /> Schedule
       </Link>
       <h1 className="mt-2 font-display text-4xl font-bold uppercase tracking-wide text-denim-ink">
-        New job
+        {isEstimate ? "New estimate" : "New job"}
       </h1>
 
       {error && (
@@ -84,6 +85,7 @@ export default async function NewJobPage({
               name="title"
               required
               className="field"
+              defaultValue={isEstimate ? "Estimate" : undefined}
               placeholder="Quarterly service, termite inspection…"
             />
           </div>

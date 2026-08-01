@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Crescent CRM",
     short_name: "Crescent",
     description: "Customer and scheduling hub for Crescent Pest Control",
-    start_url: "/today",
+    start_url: "/",
     display: "standalone",
     background_color: "#f5f3ec",
     theme_color: "#1d2a42",
