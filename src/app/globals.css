@@ -51,10 +51,11 @@ body {
 /* shared form controls — in the components layer so single utilities
    (e.g. pl-9 on a search input) can override them */
 @layer components {
+  /* text-base on phones: iOS Safari zooms the page when focusing inputs under 16px */
   .field {
-    @apply w-full rounded-md border border-line bg-white px-3 py-1.5 text-sm text-ink
+    @apply w-full rounded-md border border-line bg-white px-3 py-1.5 text-base text-ink
       placeholder:text-ink-soft/60 focus:border-denim focus:outline-none
-      focus:ring-2 focus:ring-denim/20 md:py-2;
+      focus:ring-2 focus:ring-denim/20 md:py-2 md:text-sm;
   }
 
   .btn-primary {
