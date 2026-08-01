@@ -3,6 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { addMonthsISO, todayISO } from "@/lib/format";
+import {
+  describeRecurrence,
+  hasUpcomingJob,
+  intervalMonths,
+  laterOfISO,
+  type RecurrenceResult,
+} from "@/lib/recurrence";
 import type { PlanFrequency } from "@/lib/types";
 
 function str(formData: FormData, key: string) {
@@ -115,4 +123,77 @@ export async function updatePlan(formData: FormData) {
 
   revalidatePath(customerPath);
   redirect(customerPath);
+}
+
+interface PlanScheduleRow {
+  id: string;
+  property_id: string;
+  name: string;
+  frequency: PlanFrequency;
+  active: boolean;
+}
+
+/**
+ * Books the next visit for a plan that has nothing on the board (the dashboard
+ * nudge). Cadence comes off the plan's most recent job; a plan that has never
+ * been serviced starts today.
+ */
+export async function scheduleNextForPlan(formData: FormData) {
+  const plan_id = str(formData, "plan_id");
+  if (!plan_id) return;
+
+  const supabase = await createClient();
+  const { data: plan } = await supabase
+    .from("service_plans")
+    .select("id, property_id, name, frequency, active")
+    .eq("id", plan_id)
+    .single<PlanScheduleRow>();
+
+  const result = await scheduleForPlan(supabase, plan);
+  console.log(describeRecurrence(plan_id, result));
+
+  revalidatePath("/");
+  revalidatePath("/schedule");
+  revalidatePath("/today");
+}
+
+async function scheduleForPlan(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  plan: PlanScheduleRow | null,
+): Promise<RecurrenceResult> {
+  if (!plan) return { status: "skipped", reason: "plan not found" };
+  if (!plan.active) return { status: "skipped", reason: "plan inactive" };
+
+  const months = intervalMonths[plan.frequency];
+  if (!months) return { status: "skipped", reason: "plan is one-time" };
+
+  const today = todayISO();
+  if (await hasUpcomingJob(supabase, plan.id, today)) {
+    return { status: "skipped", reason: "plan already has an upcoming job" };
+  }
+
+  const { data: lastJob } = await supabase
+    .from("jobs")
+    .select("scheduled_date")
+    .eq("service_plan_id", plan.id)
+    .order("scheduled_date", { ascending: false })
+    .limit(1)
+    .maybeSingle<{ scheduled_date: string }>();
+
+  const next = lastJob
+    ? laterOfISO(addMonthsISO(lastJob.scheduled_date, months), today)
+    : today;
+
+  const { error } = await supabase.from("jobs").insert({
+    property_id: plan.property_id,
+    service_plan_id: plan.id,
+    title: plan.name,
+    scheduled_date: next,
+    status: "scheduled",
+  });
+
+  if (error) {
+    return { status: "skipped", reason: `insert failed: ${error.message}` };
+  }
+  return { status: "created", date: next };
 }

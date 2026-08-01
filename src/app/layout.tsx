@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 
@@ -17,6 +17,10 @@ const barlowCondensed = Barlow_Condensed({
 export const metadata: Metadata = {
   title: "Crescent CRM",
   description: "Customer and scheduling hub for Crescent Pest Control",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1d2a42",
 };
 
 export default function RootLayout({

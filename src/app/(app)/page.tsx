@@ -1,10 +1,18 @@
 import Link from "next/link";
-import { AlertTriangle, Plus } from "lucide-react";
+import { AlertTriangle, CalendarClock, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { fetchJobsBetween, fetchOverdueJobs, type JobRow } from "@/lib/queries";
+import {
+  fetchJobsBetween,
+  fetchOverdueJobs,
+  fetchPlansNeedingScheduling,
+  type JobRow,
+  type PlanNeedingScheduling,
+} from "@/lib/queries";
 import { addDaysISO, formatDate, formatLongDate, formatWindow, todayISO } from "@/lib/format";
+import { scheduleNextForPlan } from "@/lib/actions/plans";
 import { customerName } from "@/lib/types";
 import { StatusBadge } from "@/components/StatusBadge";
+import { frequencyLabel } from "./customers/planFrequency";
 
 function JobLine({ job, showDate = false }: { job: JobRow; showDate?: boolean }) {
   const cust = job.property?.customer;
@@ -31,14 +39,46 @@ function JobLine({ job, showDate = false }: { job: JobRow; showDate?: boolean })
   );
 }
 
+function PlanLine({ plan }: { plan: PlanNeedingScheduling }) {
+  const cust = plan.property?.customer;
+  return (
+    <li className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-4 py-3 last:border-b-0">
+      <div className="min-w-0 flex-1">
+        <p className="truncate font-semibold">
+          {plan.name}
+          {cust && (
+            <span className="font-normal text-ink-soft"> · {customerName(cust)}</span>
+          )}
+        </p>
+        <p className="truncate text-sm text-ink-soft">
+          {plan.property
+            ? `${plan.property.address_line1}, ${plan.property.city}`
+            : "—"}
+          {` · ${frequencyLabel[plan.frequency] ?? plan.frequency}`}
+        </p>
+      </div>
+      <span className="text-sm text-ink-soft">
+        {plan.lastVisit ? `Last visit ${formatDate(plan.lastVisit)}` : "Never serviced"}
+      </span>
+      <form action={scheduleNextForPlan}>
+        <input type="hidden" name="plan_id" value={plan.id} />
+        <button type="submit" className="btn-ghost">
+          Schedule next
+        </button>
+      </form>
+    </li>
+  );
+}
+
 export default async function DashboardPage() {
   const today = todayISO();
   const supabase = await createClient();
 
-  const [todayJobs, weekJobs, overdue, customerCount] = await Promise.all([
+  const [todayJobs, weekJobs, overdue, unscheduledPlans, customerCount] = await Promise.all([
     fetchJobsBetween(today, today),
     fetchJobsBetween(addDaysISO(today, 1), addDaysISO(today, 7)),
     fetchOverdueJobs(today),
+    fetchPlansNeedingScheduling(today),
     supabase
       .from("customers")
       .select("id", { count: "exact", head: true })
@@ -86,6 +126,19 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {unscheduledPlans.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-gold-deep">
+            <CalendarClock size={18} /> Plans needing scheduling
+          </h2>
+          <ul className="rounded-lg border border-gold/60 bg-card">
+            {unscheduledPlans.map((p) => (
+              <PlanLine key={p.id} plan={p} />
+            ))}
+          </ul>
+        </section>
+      )}
 
       {overdue.length > 0 && (
         <section className="mt-8">

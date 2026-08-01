@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AlertTriangle, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { fetchJobsBetween, fetchOverdueJobs, type JobRow } from "@/lib/queries";
 import { addDaysISO, formatLongDate, todayISO } from "@/lib/format";
+import { CustomerSearch } from "@/components/CustomerSearch";
 import { JobCard } from "./JobCard";
 
 const DAYS_SHOWN = 7;
@@ -36,6 +37,7 @@ export default async function SchedulePage({
           Schedule
         </h1>
         <div className="flex flex-wrap items-center gap-2">
+          <CustomerSearch />
           <Link
             href={`/schedule?from=${addDaysISO(start, -DAYS_SHOWN)}`}
             aria-label="Previous week"

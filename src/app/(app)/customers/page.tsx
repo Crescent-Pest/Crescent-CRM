@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Search } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { customerName, type Customer } from "@/lib/types";
+import { PhoneLink } from "@/components/phone";
 
 export default async function CustomersPage({
   searchParams,
@@ -87,7 +88,9 @@ export default async function CustomersPage({
                   </Link>
                 </td>
                 <td className="px-4 py-2.5 capitalize text-ink-soft">{c.type}</td>
-                <td className="px-4 py-2.5">{c.phone ?? "—"}</td>
+                <td className="px-4 py-2.5">
+                  {c.phone ? <PhoneLink phone={c.phone} /> : "—"}
+                </td>
                 <td className="hidden px-4 py-2.5 md:table-cell">{c.email ?? "—"}</td>
                 <td className="px-4 py-2.5">
                   <span

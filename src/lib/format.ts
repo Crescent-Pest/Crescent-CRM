@@ -55,3 +55,20 @@ export function addDaysISO(isoDate: string, days: number) {
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().slice(0, 10);
 }
+
+/**
+ * Month arithmetic that clamps to the last day of the target month, so
+ * Jan 31 + 1 month is Feb 28/29 instead of rolling over into March.
+ */
+export function addMonthsISO(isoDate: string, months: number) {
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  const day = d.getUTCDate();
+  d.setUTCDate(1); // park on a day every month has before shifting
+  d.setUTCMonth(d.getUTCMonth() + months);
+  // day 0 of the following month = last day of the target month
+  const lastDay = new Date(
+    Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0),
+  ).getUTCDate();
+  d.setUTCDate(Math.min(day, lastDay));
+  return d.toISOString().slice(0, 10);
+}

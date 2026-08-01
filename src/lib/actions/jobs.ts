@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { describeRecurrence, maybeScheduleNext } from "@/lib/recurrence";
 import type { JobStatus } from "@/lib/types";
 
 function str(formData: FormData, key: string) {
@@ -95,7 +96,12 @@ export async function updateJob(formData: FormData) {
     redirect(`${editPath}?error=${encodeURIComponent(error.message)}`);
   }
 
+  if (status === "completed") {
+    console.log(describeRecurrence(id, await maybeScheduleNext(supabase, id)));
+  }
+
   revalidatePath("/schedule");
+  revalidatePath("/today");
   revalidatePath("/");
   redirect("/schedule");
 }
@@ -126,8 +132,13 @@ export async function setJobStatus(formData: FormData) {
   if (notes) update.completion_notes = notes;
 
   const supabase = await createClient();
-  await supabase.from("jobs").update(update).eq("id", id);
+  const { error } = await supabase.from("jobs").update(update).eq("id", id);
+
+  if (!error && status === "completed") {
+    console.log(describeRecurrence(id, await maybeScheduleNext(supabase, id)));
+  }
 
   revalidatePath("/schedule");
+  revalidatePath("/today");
   revalidatePath("/");
 }

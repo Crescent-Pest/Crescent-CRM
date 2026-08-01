@@ -5,8 +5,12 @@ import { customerName } from "@/lib/types";
 import type { RunSheetJobRow } from "@/lib/queries";
 import { JobActions } from "@/components/JobActions";
 import { StatusBadge } from "@/components/StatusBadge";
+import { PhoneLink } from "@/components/phone";
 
 type Property = NonNullable<RunSheetJobRow["property"]>;
+
+/** phone is only present once the run-sheet select asks for it — treat it as optional */
+type RunSheetCustomer = NonNullable<Property["customer"]> & { phone?: string | null };
 
 function fullAddress(p: Property) {
   return [p.address_line1, p.address_line2, `${p.city}, ${p.state} ${p.zip}`]
@@ -22,7 +26,7 @@ export function RunSheetCard({
   overdue?: boolean;
 }) {
   const property = job.property;
-  const cust = property?.customer;
+  const cust: RunSheetCustomer | null | undefined = property?.customer;
   const address = property ? fullAddress(property) : null;
 
   return (
@@ -69,6 +73,15 @@ export function RunSheetCard({
         </a>
       ) : (
         <p className="mt-3 text-sm text-ink-soft">No address on file.</p>
+      )}
+
+      {cust?.phone && (
+        <PhoneLink
+          phone={cust.phone}
+          icon
+          iconSize={16}
+          className="mt-2 flex min-h-11 items-center gap-2 rounded-md border border-line bg-white px-3 py-2 text-sm text-ink transition-colors hover:border-denim hover:text-denim"
+        />
       )}
 
       {property?.access_notes && (

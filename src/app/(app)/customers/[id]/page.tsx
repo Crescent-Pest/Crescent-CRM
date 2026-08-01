@@ -6,6 +6,7 @@ import { addNote, setCustomerStatus } from "@/lib/actions/customers";
 import { formatDate, formatMoney, formatWindow } from "@/lib/format";
 import { customerName, type Customer, type Job, type Property, type ServicePlan } from "@/lib/types";
 import { StatusBadge } from "@/components/StatusBadge";
+import { PhoneLink } from "@/components/phone";
 import { frequencyLabel } from "../planFrequency";
 import { PropertyForm } from "./PropertyForm";
 import { PlanForm } from "./PlanForm";
@@ -73,6 +74,11 @@ export default async function CustomerDetailPage({
   const jobs = (jobData ?? []) as Job[];
   const notes = (noteData ?? []) as unknown as NoteRow[];
   const addressById = new Map(properties.map((p) => [p.id, p.address_line1]));
+  // header button preselects the address staff will almost always mean
+  const firstActive = properties.find((p) => p.active);
+  const scheduleHref = firstActive
+    ? `/schedule/new?property=${firstActive.id}`
+    : "/schedule/new";
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -113,7 +119,7 @@ export default async function CustomerDetailPage({
               {customer.status === "active" ? "Mark inactive" : "Reactivate"}
             </button>
           </form>
-          <Link href="/schedule/new" className="btn-primary">
+          <Link href={scheduleHref} className="btn-primary">
             <CalendarPlus size={16} /> Schedule job
           </Link>
         </div>
@@ -158,12 +164,20 @@ export default async function CustomerDetailPage({
                         </span>
                       )}
                     </p>
-                    <Link
-                      href={`/customers/${customer.id}/properties/${p.id}/edit`}
-                      className="inline-flex shrink-0 items-center gap-1 text-sm text-ink-soft hover:text-denim"
-                    >
-                      <Pencil size={13} /> Edit
-                    </Link>
+                    <div className="flex shrink-0 items-center gap-3 text-sm">
+                      <Link
+                        href={`/schedule/new?property=${p.id}`}
+                        className="inline-flex items-center gap-1 text-ink-soft hover:text-denim"
+                      >
+                        <CalendarPlus size={13} /> Schedule job
+                      </Link>
+                      <Link
+                        href={`/customers/${customer.id}/properties/${p.id}/edit`}
+                        className="inline-flex items-center gap-1 text-ink-soft hover:text-denim"
+                      >
+                        <Pencil size={13} /> Edit
+                      </Link>
+                    </div>
                   </div>
                   {p.access_notes && (
                     <p className="mt-1.5 text-sm text-ink-soft">Access: {p.access_notes}</p>
@@ -245,10 +259,18 @@ export default async function CustomerDetailPage({
               Contact
             </h2>
             <div className="space-y-2 text-sm">
-              <p className="flex items-center gap-2">
+              <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Phone size={14} className="text-denim" />
-                {customer.phone ?? "No phone"}
-                {customer.phone_alt && <span className="text-ink-soft">· {customer.phone_alt}</span>}
+                {customer.phone ? <PhoneLink phone={customer.phone} /> : "No phone"}
+                {customer.phone_alt && (
+                  <span className="text-ink-soft">
+                    ·{" "}
+                    <PhoneLink
+                      phone={customer.phone_alt}
+                      className="text-ink-soft hover:text-denim hover:underline"
+                    />
+                  </span>
+                )}
               </p>
               <p className="flex items-center gap-2">
                 <Mail size={14} className="text-denim" />

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { fetchRunSheet } from "@/lib/queries";
 import { formatLongDate, todayISO } from "@/lib/format";
 import { RunSheetCard } from "@/components/RunSheetCard";
+import { CustomerSearch } from "@/components/CustomerSearch";
 
 function ViewToggle({ showAll }: { showAll: boolean }) {
   const base =
@@ -49,15 +50,18 @@ export default async function TodayPage({
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div>
-        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
-          My Day
-        </h1>
-        <p className="mt-1 text-ink-soft">
-          {formatLongDate(today)}
-          <span className="mx-1.5">·</span>
-          {remaining} {remaining === 1 ? "stop" : "stops"} left
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
+            My Day
+          </h1>
+          <p className="mt-1 text-ink-soft">
+            {formatLongDate(today)}
+            <span className="mx-1.5">·</span>
+            {remaining} {remaining === 1 ? "stop" : "stops"} left
+          </p>
+        </div>
+        <CustomerSearch />
       </div>
 
       <div className="mt-4">

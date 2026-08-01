@@ -12,9 +12,9 @@ interface PropertyOption extends Property {
 export default async function NewJobPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; property?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, property } = await searchParams;
   const supabase = await createClient();
 
   const [{ data: propData }, { data: techData }] = await Promise.all([
@@ -27,6 +27,8 @@ export default async function NewJobPage({
   ]);
   const properties = (propData ?? []) as unknown as PropertyOption[];
   const techs = (techData ?? []) as Profile[];
+  // ignore a stale/inactive ?property so the placeholder still forces a choice
+  const preselected = properties.some((p) => p.id === property) ? property! : "";
 
   return (
     <div className="mx-auto max-w-xl">
@@ -56,7 +58,13 @@ export default async function NewJobPage({
         <form action={createJob} className="mt-6 space-y-4 rounded-lg border border-line bg-card p-6">
           <div>
             <label htmlFor="property_id" className="label">Property</label>
-            <select id="property_id" name="property_id" required className="field" defaultValue="">
+            <select
+              id="property_id"
+              name="property_id"
+              required
+              className="field"
+              defaultValue={preselected}
+            >
               <option value="" disabled>
                 Choose a service address…
               </option>
