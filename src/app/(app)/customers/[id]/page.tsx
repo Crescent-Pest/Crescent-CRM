@@ -134,7 +134,7 @@ export default async function CustomerDetailPage({
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <div className="space-y-6">
           <section>
-            <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+            <h2 className="mb-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
               Service addresses
             </h2>
             <div className="space-y-3">
@@ -221,7 +221,7 @@ export default async function CustomerDetailPage({
           </section>
 
           <section>
-            <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+            <h2 className="mb-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
               Job history
             </h2>
             {jobs.length === 0 ? (
@@ -280,7 +280,7 @@ export default async function CustomerDetailPage({
           </section>
 
           <section>
-            <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+            <h2 className="mb-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
               Notes
             </h2>
             <form action={addNote} className="rounded-lg border border-line bg-card p-3">

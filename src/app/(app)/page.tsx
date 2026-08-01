@@ -70,12 +70,9 @@ function PlanLine({ plan }: { plan: PlanNeedingScheduling }) {
           <p className="text-sm text-ink-soft md:hidden">{lastVisit}</p>
         </div>
         <span className="hidden shrink-0 text-sm text-ink-soft md:block">{lastVisit}</span>
-        <form action={scheduleNextForPlan} className="shrink-0">
+        <form action={scheduleNextForPlan} className="shrink-0 self-start md:self-auto">
           <input type="hidden" name="plan_id" value={plan.id} />
-          <button
-            type="submit"
-            className="btn-ghost btn-tap w-full justify-center md:w-auto"
-          >
+          <button type="submit" className="btn-ghost btn-tap">
             Schedule next
           </button>
         </form>
@@ -159,7 +156,7 @@ export default async function DashboardPage() {
 
       {unscheduledPlans.length > 0 && (
         <section className="mt-6 md:mt-8">
-          <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-gold-deep">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-gold-deep">
             <CalendarClock size={18} /> Plans needing scheduling
           </h2>
           <ul className="rounded-lg border border-gold/60 bg-card">
@@ -172,7 +169,7 @@ export default async function DashboardPage() {
 
       {overdue.length > 0 && (
         <section className="mt-6 md:mt-8">
-          <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-danger">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-danger">
             <AlertTriangle size={18} /> Needs attention
           </h2>
           <ul className="rounded-lg border border-danger/40 bg-card">
@@ -184,11 +181,11 @@ export default async function DashboardPage() {
       )}
 
       <section className="mt-6 md:mt-8">
-        <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+        <h2 className="mb-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
           Today&apos;s run
         </h2>
         {todayJobs.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-line bg-card px-4 py-8 text-center text-ink-soft">
+          <p className="rounded-lg border border-dashed border-line bg-card px-4 py-6 text-center text-ink-soft md:py-8">
             Nothing on the board today.
           </p>
         ) : (
@@ -201,11 +198,11 @@ export default async function DashboardPage() {
       </section>
 
       <section className="mt-6 md:mt-8">
-        <h2 className="mb-2 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+        <h2 className="mb-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
           Coming up
         </h2>
         {weekJobs.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-line bg-card px-4 py-8 text-center text-ink-soft">
+          <p className="rounded-lg border border-dashed border-line bg-card px-4 py-6 text-center text-ink-soft md:py-8">
             No jobs scheduled in the next 7 days.{" "}
             <Link href="/schedule/new" className="font-semibold text-denim underline">
               Schedule one

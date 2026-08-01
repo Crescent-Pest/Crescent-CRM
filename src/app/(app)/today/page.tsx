@@ -8,7 +8,7 @@ import { CustomerSearch } from "@/components/CustomerSearch";
 
 function ViewToggle({ showAll }: { showAll: boolean }) {
   const base =
-    "flex min-h-11 flex-1 items-center justify-center rounded px-4 font-display text-sm font-semibold uppercase tracking-[0.08em] transition-colors md:flex-none";
+    "flex min-h-9 flex-1 items-center justify-center rounded px-4 font-display text-sm font-semibold uppercase tracking-[0.08em] transition-colors md:flex-none";
   const on = "bg-denim text-white";
   const off = "text-ink-soft hover:text-denim";
 
@@ -69,7 +69,7 @@ export default async function TodayPage({
       </div>
 
       {jobs.length === 0 && (
-        <div className="mt-6 rounded-lg border border-dashed border-line bg-card px-4 py-10 text-center">
+        <div className="mt-6 rounded-lg border border-dashed border-line bg-card px-4 py-6 text-center md:py-10">
           {showAll ? (
             <p className="text-ink-soft">
               Nothing on the board today.{" "}
@@ -98,7 +98,7 @@ export default async function TodayPage({
 
       {overdue.length > 0 && (
         <section className="mt-6">
-          <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-danger">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-danger">
             <AlertTriangle size={18} /> Still open
           </h2>
           <div className="space-y-3">
@@ -111,7 +111,7 @@ export default async function TodayPage({
 
       {dueToday.length > 0 && (
         <section className="mt-6">
-          <h2 className="mb-2 border-b-2 border-gold pb-1 font-display text-lg font-bold uppercase tracking-wide text-denim-ink">
+          <h2 className="mb-2 border-b-2 border-gold pb-1 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
             Today&apos;s run
           </h2>
           <div className="space-y-3">

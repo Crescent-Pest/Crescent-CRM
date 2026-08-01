@@ -46,7 +46,7 @@ export default async function SchedulePage({
         <Link
           href={`/schedule?from=${addDaysISO(start, -DAYS_SHOWN)}`}
           aria-label="Previous week"
-          className="btn-ghost min-h-11 min-w-11 shrink-0 justify-center px-2 md:min-h-0 md:min-w-0"
+          className="btn-ghost min-h-10 min-w-10 shrink-0 justify-center px-2 md:min-h-0 md:min-w-0"
         >
           <ChevronLeft size={16} />
         </Link>
@@ -58,7 +58,7 @@ export default async function SchedulePage({
         <Link
           href={`/schedule?from=${addDaysISO(start, DAYS_SHOWN)}`}
           aria-label="Next week"
-          className="btn-ghost min-h-11 min-w-11 shrink-0 justify-center px-2 md:min-h-0 md:min-w-0"
+          className="btn-ghost min-h-10 min-w-10 shrink-0 justify-center px-2 md:min-h-0 md:min-w-0"
         >
           <ChevronRight size={16} />
         </Link>
@@ -66,7 +66,7 @@ export default async function SchedulePage({
 
       {overdue.length > 0 && (
         <section className="mt-6">
-          <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-danger">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-danger">
             <AlertTriangle size={18} /> Overdue
           </h2>
           <div className="space-y-3">
@@ -83,7 +83,7 @@ export default async function SchedulePage({
           return (
             <section key={date}>
               <h2
-                className={`mb-2 border-b-2 pb-1 font-display text-lg font-bold uppercase tracking-wide ${
+                className={`mb-2 border-b-2 pb-1 font-display text-base font-bold uppercase tracking-wide md:text-lg ${
                   date === today
                     ? "border-gold text-denim-ink"
                     : "border-line text-ink-soft"
