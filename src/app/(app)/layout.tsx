@@ -49,9 +49,12 @@ export default async function AppLayout({
         </nav>
 
         <div className="border-t border-white/10 px-4 py-4">
-          <p className="truncate text-sm font-semibold">
+          <Link
+            href="/account"
+            className="block truncate text-sm font-semibold hover:text-gold"
+          >
             {profile?.full_name || "Staff"}
-          </p>
+          </Link>
           <p className="font-display text-[11px] uppercase tracking-[0.2em] text-gold">
             {profile?.role ?? "office"}
           </p>
@@ -74,9 +77,12 @@ export default async function AppLayout({
             <Wordmark light />
           </div>
           <div className="flex items-center gap-3">
-            <p className="truncate text-right text-xs text-white/70">
+            <Link
+              href="/account"
+              className="truncate text-right text-xs text-white/70 hover:text-white"
+            >
               {profile?.full_name || "Staff"}
-            </p>
+            </Link>
             <form action={signOut}>
               <button
                 type="submit"

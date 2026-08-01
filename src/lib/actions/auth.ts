@@ -32,6 +32,34 @@ export async function signIn(
   redirect("/");
 }
 
+export interface PasswordState {
+  error: string | null;
+  success: boolean;
+}
+
+export async function updatePassword(
+  _prev: PasswordState,
+  formData: FormData
+): Promise<PasswordState> {
+  const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+
+  if (password.length < 8) {
+    return { error: "Password needs at least 8 characters.", success: false };
+  }
+  if (password !== confirm) {
+    return { error: "Passwords don't match.", success: false };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return { error: `Couldn't update password: ${error.message}`, success: false };
+  }
+  return { error: null, success: true };
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
