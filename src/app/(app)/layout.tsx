@@ -1,15 +1,11 @@
 import Link from "next/link";
-import { LayoutDashboard, Users, CalendarDays, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/lib/actions/auth";
 import { CrescentMark, Wordmark } from "@/components/brand";
+import { MobileNav } from "@/components/MobileNav";
+import { sidebarNav } from "@/components/nav";
 import type { Profile } from "@/lib/types";
-
-const nav = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/customers", label: "Customers", icon: Users },
-  { href: "/schedule", label: "Schedule", icon: CalendarDays },
-];
 
 export default async function AppLayout({
   children,
@@ -33,14 +29,14 @@ export default async function AppLayout({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="flex w-56 shrink-0 flex-col border-r-2 border-gold/60 bg-denim-ink text-white">
+      <aside className="hidden w-56 shrink-0 flex-col border-r-2 border-gold/60 bg-denim-ink text-white md:flex">
         <div className="flex items-center gap-2.5 px-4 py-5">
           <CrescentMark size={30} />
           <Wordmark light />
         </div>
 
         <nav className="mt-2 flex-1 space-y-1 px-3">
-          {nav.map(({ href, label, icon: Icon }) => (
+          {sidebarNav.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
@@ -71,7 +67,35 @@ export default async function AppLayout({
         </div>
       </aside>
 
-      <main className="grain min-w-0 flex-1 px-8 py-8">{children}</main>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex items-center justify-between border-b-2 border-gold/60 bg-denim-ink px-4 py-3 text-white md:hidden">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <CrescentMark size={26} />
+            <Wordmark light />
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="truncate text-right text-xs text-white/70">
+              {profile?.full_name || "Staff"}
+            </p>
+            <form action={signOut}>
+              <button
+                type="submit"
+                aria-label="Sign out"
+                className="flex min-h-11 min-w-11 items-center justify-center text-white/70 transition-colors hover:text-white"
+              >
+                <LogOut size={18} />
+              </button>
+            </form>
+          </div>
+        </header>
+
+        {/* pb-24 keeps the last card clear of the fixed mobile tab bar */}
+        <main className="grain min-w-0 flex-1 px-4 py-6 pb-24 md:px-8 md:py-8 md:pb-8">
+          {children}
+        </main>
+      </div>
+
+      <MobileNav />
     </div>
   );
 }

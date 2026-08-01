@@ -55,9 +55,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-4xl font-bold uppercase tracking-wide text-denim-ink">
+          <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
             Dispatch Board
           </h1>
           <p className="mt-1 text-ink-soft">{formatLongDate(today)}</p>
@@ -75,7 +75,11 @@ export default async function DashboardPage() {
               s.alert ? "border-danger/40" : "border-line"
             }`}
           >
-            <p className={`font-display text-4xl font-bold ${s.alert ? "text-danger" : "text-denim"}`}>
+            <p
+              className={`font-display text-3xl font-bold md:text-4xl ${
+                s.alert ? "text-danger" : "text-denim"
+              }`}
+            >
               {s.value}
             </p>
             <p className="label mb-0 mt-1">{s.label}</p>

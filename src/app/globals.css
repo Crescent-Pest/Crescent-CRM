@@ -70,3 +70,23 @@ body {
 .label {
   @apply mb-1 block font-display text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft;
 }
+
+/* techs tap these one-handed in the field — hold hit areas at 44px on phones */
+.btn-tap {
+  @apply min-h-11 px-4 py-2.5 md:min-h-0 md:px-3 md:py-1.5;
+}
+
+/* <details> used as a disclosure button (job completion notes) */
+.disclosure > summary {
+  @apply inline-flex min-h-11 cursor-pointer list-none items-center justify-center gap-2
+    rounded-md bg-denim px-4 py-2.5 text-sm font-semibold text-white transition-colors
+    hover:bg-denim-deep md:min-h-0 md:py-1.5;
+}
+
+.disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure[open] > summary {
+  @apply bg-denim-deep;
+}

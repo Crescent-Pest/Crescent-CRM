@@ -1,24 +1,10 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
-import { setJobStatus } from "@/lib/actions/jobs";
 import { formatWindow } from "@/lib/format";
 import { customerName } from "@/lib/types";
 import type { JobRow } from "@/lib/queries";
+import { JobActions } from "@/components/JobActions";
 import { StatusBadge } from "@/components/StatusBadge";
-
-const actionButtons: Record<string, { action: string; label: string }[]> = {
-  scheduled: [
-    { action: "start", label: "Start" },
-    { action: "complete", label: "Complete" },
-    { action: "cancel", label: "Cancel" },
-  ],
-  in_progress: [
-    { action: "complete", label: "Complete" },
-    { action: "cancel", label: "Cancel" },
-  ],
-  completed: [{ action: "reopen", label: "Reopen" }],
-  canceled: [{ action: "reopen", label: "Reschedule" }],
-};
 
 export function JobCard({ job }: { job: JobRow }) {
   const cust = job.property?.customer;
@@ -48,26 +34,13 @@ export function JobCard({ job }: { job: JobRow }) {
         <StatusBadge status={job.status} />
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
+      <div className="mt-3 flex flex-col gap-3 border-t border-line pt-3 md:flex-row md:flex-wrap md:items-start md:justify-between">
         <p className="text-sm text-ink-soft">
           {formatWindow(job.window_start, job.window_end)}
           <span className="mx-1.5">·</span>
           {job.assigned ? job.assigned.full_name : "Unassigned"}
         </p>
-        <form action={setJobStatus} className="flex gap-2">
-          <input type="hidden" name="id" value={job.id} />
-          {(actionButtons[job.status] ?? []).map((b) => (
-            <button
-              key={b.action}
-              type="submit"
-              name="action"
-              value={b.action}
-              className="btn-ghost px-2.5 py-1 text-xs"
-            >
-              {b.label}
-            </button>
-          ))}
-        </form>
+        <JobActions id={job.id} status={job.status} />
       </div>
 
       {job.completion_notes && (

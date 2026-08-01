@@ -32,11 +32,15 @@ export default async function SchedulePage({
   return (
     <div className="mx-auto max-w-4xl">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h1 className="font-display text-4xl font-bold uppercase tracking-wide text-denim-ink">
+        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-denim-ink md:text-4xl">
           Schedule
         </h1>
-        <div className="flex items-center gap-2">
-          <Link href={`/schedule?from=${addDaysISO(start, -DAYS_SHOWN)}`} className="btn-ghost px-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href={`/schedule?from=${addDaysISO(start, -DAYS_SHOWN)}`}
+            aria-label="Previous week"
+            className="btn-ghost min-h-11 min-w-11 justify-center px-2 md:min-h-0 md:min-w-0"
+          >
             <ChevronLeft size={16} />
           </Link>
           {start !== today && (
@@ -44,7 +48,11 @@ export default async function SchedulePage({
               Today
             </Link>
           )}
-          <Link href={`/schedule?from=${addDaysISO(start, DAYS_SHOWN)}`} className="btn-ghost px-2">
+          <Link
+            href={`/schedule?from=${addDaysISO(start, DAYS_SHOWN)}`}
+            aria-label="Next week"
+            className="btn-ghost min-h-11 min-w-11 justify-center px-2 md:min-h-0 md:min-w-0"
+          >
             <ChevronRight size={16} />
           </Link>
           <Link href="/schedule/new" className="btn-primary">

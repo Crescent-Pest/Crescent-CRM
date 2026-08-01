@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MapPin, Phone, Mail, CalendarPlus } from "lucide-react";
+import { ArrowLeft, MapPin, Phone, Mail, CalendarPlus, Pencil } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { addNote, setCustomerStatus } from "@/lib/actions/customers";
 import { formatDate, formatMoney, formatWindow } from "@/lib/format";
 import { customerName, type Customer, type Job, type Property, type ServicePlan } from "@/lib/types";
 import { StatusBadge } from "@/components/StatusBadge";
+import { frequencyLabel } from "../planFrequency";
 import { PropertyForm } from "./PropertyForm";
+import { PlanForm } from "./PlanForm";
 
 interface PropertyWithPlans extends Property {
   service_plans: ServicePlan[];
@@ -19,13 +21,11 @@ interface NoteRow {
   author: { full_name: string } | null;
 }
 
-const frequencyLabel: Record<string, string> = {
-  one_time: "One-time",
-  monthly: "Monthly",
-  bimonthly: "Every 2 months",
-  quarterly: "Quarterly",
-  semiannual: "Twice a year",
-  annual: "Yearly",
+const errorMessage: Record<string, string> = {
+  address: "Street address, city, and zip are required.",
+  plan_missing: "Plan name and start date are required.",
+  plan_frequency: "Pick a service frequency.",
+  plan_price: "Enter the price as a positive dollar amount, like 129.50.",
 };
 
 export default async function CustomerDetailPage({
@@ -99,6 +99,9 @@ export default async function CustomerDetailPage({
           </p>
         </div>
         <div className="flex gap-2">
+          <Link href={`/customers/${customer.id}/edit`} className="btn-ghost">
+            <Pencil size={14} /> Edit
+          </Link>
           <form action={setCustomerStatus}>
             <input type="hidden" name="id" value={customer.id} />
             <input
@@ -118,9 +121,7 @@ export default async function CustomerDetailPage({
 
       {formError && (
         <p className="mt-4 rounded-md bg-danger/10 px-3 py-2 text-sm text-danger">
-          {formError === "address"
-            ? "Street address, city, and zip are required."
-            : `Couldn't save: ${formError}`}
+          {errorMessage[formError] ?? `Couldn't save: ${formError}`}
         </p>
       )}
 
@@ -138,30 +139,67 @@ export default async function CustomerDetailPage({
               )}
               {properties.map((p) => (
                 <div key={p.id} className="rounded-lg border border-line bg-card p-4">
-                  <p className="flex items-center gap-2 font-semibold">
-                    <MapPin size={15} className="text-gold-deep" />
-                    {p.address_line1}
-                    {p.address_line2 && `, ${p.address_line2}`}
-                    <span className="font-normal text-ink-soft">
-                      {p.city}, {p.state} {p.zip}
-                    </span>
-                    {p.label && (
-                      <span className="rounded-full bg-denim/10 px-2 py-0.5 font-display text-xs font-semibold uppercase tracking-wider text-denim">
-                        {p.label}
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="flex flex-wrap items-center gap-2 font-semibold">
+                      <MapPin size={15} className="text-gold-deep" />
+                      {p.address_line1}
+                      {p.address_line2 && `, ${p.address_line2}`}
+                      <span className="font-normal text-ink-soft">
+                        {p.city}, {p.state} {p.zip}
                       </span>
-                    )}
-                  </p>
+                      {p.label && (
+                        <span className="rounded-full bg-denim/10 px-2 py-0.5 font-display text-xs font-semibold uppercase tracking-wider text-denim">
+                          {p.label}
+                        </span>
+                      )}
+                      {!p.active && (
+                        <span className="font-display text-xs font-bold uppercase tracking-wider text-ink-soft">
+                          Inactive
+                        </span>
+                      )}
+                    </p>
+                    <Link
+                      href={`/customers/${customer.id}/properties/${p.id}/edit`}
+                      className="inline-flex shrink-0 items-center gap-1 text-sm text-ink-soft hover:text-denim"
+                    >
+                      <Pencil size={13} /> Edit
+                    </Link>
+                  </div>
                   {p.access_notes && (
                     <p className="mt-1.5 text-sm text-ink-soft">Access: {p.access_notes}</p>
                   )}
-                  {p.service_plans.filter((sp) => sp.active).map((sp) => (
-                    <p key={sp.id} className="mt-1.5 text-sm">
-                      <span className="font-semibold text-denim">{sp.name}</span>{" "}
-                      <span className="text-ink-soft">
-                        · {frequencyLabel[sp.frequency] ?? sp.frequency} · {formatMoney(sp.price_cents)}
+                  {/* active plans first so cancelled ones sink to the bottom of the card */}
+                  {[...p.service_plans]
+                    .sort((a, b) => Number(b.active) - Number(a.active))
+                    .map((sp) => (
+                    <p
+                      key={sp.id}
+                      className={`mt-1.5 flex flex-wrap items-center gap-x-1.5 text-sm ${
+                        sp.active ? "" : "opacity-60"
+                      }`}
+                    >
+                      <span className={sp.active ? "font-semibold text-denim" : "font-semibold"}>
+                        {sp.name}
                       </span>
+                      <span className="text-ink-soft">
+                        · {frequencyLabel[sp.frequency] ?? sp.frequency} ·{" "}
+                        {formatMoney(sp.price_cents)}
+                      </span>
+                      {!sp.active && (
+                        <span className="font-display text-xs font-bold uppercase tracking-wider text-ink-soft">
+                          Inactive
+                        </span>
+                      )}
+                      <Link
+                        href={`/customers/${customer.id}/properties/${p.id}/plans/${sp.id}/edit`}
+                        aria-label={`Edit ${sp.name}`}
+                        className="text-ink-soft hover:text-denim"
+                      >
+                        <Pencil size={12} />
+                      </Link>
                     </p>
                   ))}
+                  <PlanForm customerId={customer.id} propertyId={p.id} />
                 </div>
               ))}
               <PropertyForm customerId={customer.id} />
@@ -179,19 +217,21 @@ export default async function CustomerDetailPage({
             ) : (
               <ul className="rounded-lg border border-line bg-card">
                 {jobs.map((j) => (
-                  <li
-                    key={j.id}
-                    className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-line px-4 py-3 last:border-b-0"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold">{j.title}</p>
-                      <p className="truncate text-sm text-ink-soft">
-                        {addressById.get(j.property_id) ?? "—"} ·{" "}
-                        {formatWindow(j.window_start, j.window_end)}
-                      </p>
-                    </div>
-                    <span className="text-sm text-ink-soft">{formatDate(j.scheduled_date)}</span>
-                    <StatusBadge status={j.status} />
+                  <li key={j.id} className="border-b border-line last:border-b-0">
+                    <Link
+                      href={`/jobs/${j.id}/edit`}
+                      className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 hover:bg-denim/5"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold">{j.title}</p>
+                        <p className="truncate text-sm text-ink-soft">
+                          {addressById.get(j.property_id) ?? "—"} ·{" "}
+                          {formatWindow(j.window_start, j.window_end)}
+                        </p>
+                      </div>
+                      <span className="text-sm text-ink-soft">{formatDate(j.scheduled_date)}</span>
+                      <StatusBadge status={j.status} />
+                    </Link>
                   </li>
                 ))}
               </ul>

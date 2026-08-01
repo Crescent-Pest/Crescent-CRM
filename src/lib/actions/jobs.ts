@@ -41,6 +41,65 @@ export async function createJob(formData: FormData) {
   redirect("/schedule");
 }
 
+// Record keyed by the enum so TypeScript flags drift if job_status changes
+const JOB_STATUSES: Record<JobStatus, true> = {
+  scheduled: true,
+  in_progress: true,
+  completed: true,
+  canceled: true,
+};
+
+export async function updateJob(formData: FormData) {
+  const id = str(formData, "id");
+  if (!id) redirect("/schedule");
+
+  const editPath = `/jobs/${id}/edit`;
+  const title = str(formData, "title");
+  const scheduled_date = str(formData, "scheduled_date");
+  if (!title || !scheduled_date) {
+    redirect(`${editPath}?error=missing`);
+  }
+
+  const raw = str(formData, "status");
+  const status = raw in JOB_STATUSES ? (raw as JobStatus) : null;
+  if (!status) redirect(`${editPath}?error=status`);
+
+  const supabase = await createClient();
+  const { data: current } = await supabase
+    .from("jobs")
+    .select("completed_at")
+    .eq("id", id)
+    .single<{ completed_at: string | null }>();
+  if (!current) redirect(`${editPath}?error=notfound`);
+
+  // stamp completion on the way in, clear it on the way back out
+  let completed_at: string | null = null;
+  if (status === "completed") {
+    completed_at = current.completed_at ?? new Date().toISOString();
+  }
+
+  const { error } = await supabase
+    .from("jobs")
+    .update({
+      title,
+      scheduled_date,
+      window_start: orNull(str(formData, "window_start")),
+      window_end: orNull(str(formData, "window_end")),
+      assigned_to: orNull(str(formData, "assigned_to")),
+      status,
+      completed_at,
+    })
+    .eq("id", id);
+
+  if (error) {
+    redirect(`${editPath}?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/schedule");
+  revalidatePath("/");
+  redirect("/schedule");
+}
+
 const allowedTransitions: Record<string, JobStatus> = {
   start: "in_progress",
   complete: "completed",
