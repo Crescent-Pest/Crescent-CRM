@@ -17,56 +17,69 @@ import { frequencyLabel } from "./customers/planFrequency";
 
 function JobLine({ job, showDate = false }: { job: JobRow; showDate?: boolean }) {
   const cust = job.property?.customer;
+  const when = `${showDate ? `${formatDate(job.scheduled_date)} · ` : ""}${formatWindow(
+    job.window_start,
+    job.window_end
+  )}`;
   return (
-    <li className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-line px-4 py-3 last:border-b-0">
-      <div className="min-w-0 flex-1">
-        <p className="truncate font-semibold">
-          {job.title}
-          {cust && (
-            <span className="font-normal text-ink-soft"> · {customerName(cust)}</span>
-          )}
-        </p>
-        <p className="truncate text-sm text-ink-soft">
-          {job.property ? `${job.property.address_line1}, ${job.property.city}` : "—"}
-          {job.assigned && ` · ${job.assigned.full_name}`}
-        </p>
+    <li className="border-b border-line px-3 py-2.5 last:border-b-0 md:px-4 md:py-3">
+      <div className="flex items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-semibold">
+            {job.title}
+            {cust && (
+              <span className="font-normal text-ink-soft"> · {customerName(cust)}</span>
+            )}
+          </p>
+          <p className="truncate text-sm text-ink-soft">
+            {job.property ? `${job.property.address_line1}, ${job.property.city}` : "—"}
+            {job.assigned && ` · ${job.assigned.full_name}`}
+          </p>
+          <p className="text-sm text-ink-soft md:hidden">{when}</p>
+        </div>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          <StatusBadge status={job.status} />
+          <span className="hidden text-sm text-ink-soft md:block">{when}</span>
+        </div>
       </div>
-      <span className="text-sm text-ink-soft">
-        {showDate && `${formatDate(job.scheduled_date)} · `}
-        {formatWindow(job.window_start, job.window_end)}
-      </span>
-      <StatusBadge status={job.status} />
     </li>
   );
 }
 
 function PlanLine({ plan }: { plan: PlanNeedingScheduling }) {
   const cust = plan.property?.customer;
+  const lastVisit = plan.lastVisit
+    ? `Last visit ${formatDate(plan.lastVisit)}`
+    : "Never serviced";
   return (
-    <li className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-4 py-3 last:border-b-0">
-      <div className="min-w-0 flex-1">
-        <p className="truncate font-semibold">
-          {plan.name}
-          {cust && (
-            <span className="font-normal text-ink-soft"> · {customerName(cust)}</span>
-          )}
-        </p>
-        <p className="truncate text-sm text-ink-soft">
-          {plan.property
-            ? `${plan.property.address_line1}, ${plan.property.city}`
-            : "—"}
-          {` · ${frequencyLabel[plan.frequency] ?? plan.frequency}`}
-        </p>
+    <li className="border-b border-line px-3 py-2.5 last:border-b-0 md:px-4 md:py-3">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-semibold">
+            {plan.name}
+            {cust && (
+              <span className="font-normal text-ink-soft"> · {customerName(cust)}</span>
+            )}
+          </p>
+          <p className="truncate text-sm text-ink-soft">
+            {plan.property
+              ? `${plan.property.address_line1}, ${plan.property.city}`
+              : "—"}
+            {` · ${frequencyLabel[plan.frequency] ?? plan.frequency}`}
+          </p>
+          <p className="text-sm text-ink-soft md:hidden">{lastVisit}</p>
+        </div>
+        <span className="hidden shrink-0 text-sm text-ink-soft md:block">{lastVisit}</span>
+        <form action={scheduleNextForPlan} className="shrink-0">
+          <input type="hidden" name="plan_id" value={plan.id} />
+          <button
+            type="submit"
+            className="btn-ghost btn-tap w-full justify-center md:w-auto"
+          >
+            Schedule next
+          </button>
+        </form>
       </div>
-      <span className="text-sm text-ink-soft">
-        {plan.lastVisit ? `Last visit ${formatDate(plan.lastVisit)}` : "Never serviced"}
-      </span>
-      <form action={scheduleNextForPlan}>
-        <input type="hidden" name="plan_id" value={plan.id} />
-        <button type="submit" className="btn-ghost">
-          Schedule next
-        </button>
-      </form>
     </li>
   );
 }
