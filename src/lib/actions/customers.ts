@@ -53,16 +53,25 @@ export async function createCustomer(formData: FormData) {
   redirect(`/customers/${data.id}`);
 }
 
-/** Hard delete — cascades to properties, plans, jobs, and notes */
+/** Hard delete — admin-only via RLS; cascades to properties, plans, jobs, notes.
+ *  A snapshot lands in deleted_records (DB trigger) before the row goes. */
 export async function deleteCustomer(formData: FormData) {
   const id = str(formData, "id");
   if (!id) return;
 
   const supabase = await createClient();
-  const { error } = await supabase.from("customers").delete().eq("id", id);
+  // RLS silently filters rows a non-admin can't delete, so check what came back
+  const { data, error } = await supabase
+    .from("customers")
+    .delete()
+    .eq("id", id)
+    .select("id");
 
   if (error) {
     redirect(`/customers?error=${encodeURIComponent(error.message)}`);
+  }
+  if (!data || data.length === 0) {
+    redirect("/customers?error=not_allowed");
   }
 
   revalidatePath("/customers");

@@ -21,10 +21,12 @@ export function CustomerMenu({
   id,
   name,
   status,
+  canDelete,
 }: {
   id: string;
   name: string;
   status: "active" | "inactive";
+  canDelete: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -82,6 +84,7 @@ export function CustomerMenu({
               </button>
             </form>
 
+            {canDelete && (
             <form
               action={deleteCustomer}
               onSubmit={(e) => {
@@ -103,6 +106,7 @@ export function CustomerMenu({
                 <Trash2 size={15} /> Delete
               </button>
             </form>
+            )}
           </div>
         </>
       )}

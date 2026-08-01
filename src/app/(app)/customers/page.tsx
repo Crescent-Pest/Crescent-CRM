@@ -26,6 +26,13 @@ export default async function CustomersPage({
   const query = (q ?? "").trim();
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: me } = user
+    ? await supabase.from("profiles").select("role").eq("id", user.id).single()
+    : { data: null };
+  const isAdmin = me?.role === "admin";
   let request = supabase
     .from("customers")
     .select("*, properties(address_line1, city, active)")
@@ -57,7 +64,9 @@ export default async function CustomersPage({
 
       {actionError && (
         <p className="mt-4 rounded-md bg-danger/10 px-3 py-2 text-sm text-danger">
-          Couldn&apos;t delete: {actionError}
+          {actionError === "not_allowed"
+            ? "Only an admin can delete customers. Ask Logan or Sean, or mark them inactive instead."
+            : `Couldn't delete: ${actionError}`}
         </p>
       )}
 
@@ -131,7 +140,12 @@ export default async function CustomersPage({
                     </span>
                   </td>
                   <td className="px-2 py-2.5 text-right">
-                    <CustomerMenu id={c.id} name={customerName(c)} status={c.status} />
+                    <CustomerMenu
+                      id={c.id}
+                      name={customerName(c)}
+                      status={c.status}
+                      canDelete={isAdmin}
+                    />
                   </td>
                 </tr>
               );
