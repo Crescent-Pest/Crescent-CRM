@@ -50,6 +50,29 @@ account, not Rubicon's).
 - `src/app/(app)/` — authenticated app: dashboard, customers, schedule
 - `src/app/login/` — staff sign-in
 
+## FieldRoutes import
+
+Compatibility layer is in place (004_fieldroutes_compat.sql): every CRM table
+has a nullable `fieldroutes_id` with a unique index, so imports are idempotent
+— re-running updates records instead of duplicating them. Imports land in
+`import_staging` (grouped by `import_batches`) for review before touching real
+tables.
+
+Flow, once Sean provides a CSV export or API credentials:
+
+```bash
+node scripts/import-fieldroutes.mjs stage export.csv --entity customer
+node scripts/import-fieldroutes.mjs review <batch-id>
+node scripts/import-fieldroutes.mjs apply <batch-id>
+```
+
+The script runs locally only (needs the service-role key; see its header
+comment). The column mappings in `mapCustomer()` are guesses — verify against
+a real FieldRoutes export before the first `apply`.
+
+BEFORE importing real customer data: upgrade Supabase to Pro. The free plan
+has no automated backups.
+
 ## Roadmap (deferred from v1)
 
 - Invoicing & payments (Stripe)
