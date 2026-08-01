@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { customerName, type Customer } from "@/lib/types";
 import { PhoneLink } from "@/components/phone";
 import { CustomerMenu } from "@/components/CustomerMenu";
+import { CustomerSearchLive } from "@/components/CustomerSearchLive";
 
 interface CustomerRow extends Customer {
   properties: { address_line1: string; city: string; active: boolean }[];
@@ -70,19 +71,7 @@ export default async function CustomersPage({
         </p>
       )}
 
-      <form className="relative mt-6 max-w-md">
-        <Search
-          size={16}
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft"
-        />
-        <input
-          type="search"
-          name="q"
-          defaultValue={query}
-          placeholder="Search name, company, phone, email…"
-          className="field pl-9"
-        />
-      </form>
+      <CustomerSearchLive initialQuery={query} />
 
       <div className="mt-4 overflow-hidden rounded-lg border border-line bg-card">
         <table className="w-full text-sm">
