@@ -88,10 +88,23 @@ export default async function DashboardPage() {
   ]);
 
   const stats = [
-    { label: "Jobs today", value: todayJobs.filter((j) => j.status !== "canceled").length },
-    { label: "Next 7 days", value: weekJobs.filter((j) => j.status === "scheduled").length },
-    { label: "Overdue", value: overdue.length, alert: overdue.length > 0 },
-    { label: "Active customers", value: customerCount },
+    {
+      label: "Jobs today",
+      value: todayJobs.filter((j) => j.status !== "canceled").length,
+      href: "/today?view=all",
+    },
+    {
+      label: "Next 7 days",
+      value: weekJobs.filter((j) => j.status === "scheduled").length,
+      href: "/schedule",
+    },
+    {
+      label: "Overdue",
+      value: overdue.length,
+      alert: overdue.length > 0,
+      href: "/schedule",
+    },
+    { label: "Active customers", value: customerCount, href: "/customers" },
   ];
 
   return (
@@ -108,10 +121,13 @@ export default async function DashboardPage() {
 
       <div className="mt-4 grid grid-cols-4 gap-2 md:mt-6 md:gap-4">
         {stats.map((s) => (
-          <div
+          <Link
             key={s.label}
-            className={`rounded-md border bg-card p-2 text-center md:rounded-lg md:p-4 md:text-left ${
-              s.alert ? "border-danger/40" : "border-line"
+            href={s.href}
+            className={`rounded-md border bg-card p-2 text-center transition-colors md:rounded-lg md:p-4 md:text-left ${
+              s.alert
+                ? "border-danger/40 hover:border-danger"
+                : "border-line hover:border-denim"
             }`}
           >
             <p
@@ -124,7 +140,7 @@ export default async function DashboardPage() {
             <p className="label mb-0 mt-0.5 text-[10px] leading-tight tracking-[0.08em] md:mt-1 md:text-xs md:tracking-[0.12em]">
               {s.label}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
 
