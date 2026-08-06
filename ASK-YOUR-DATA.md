@@ -4,32 +4,41 @@ Talk to your FieldRoutes data in plain English using Claude Code. No spreadsheet
 
 ## One-time setup: paste this into Claude Code
 
-Have your FieldRoutes API key + token ready (Logan will send them privately, or generate your own pair in FieldRoutes settings). Then open Claude Code and paste this entire prompt:
+Save the credentials file Logan sent you (just download the attachment — Downloads folder is perfect). Then open Claude Code and paste this entire prompt:
 
 ```
-Hi — I'm Sean, owner of Crescent Pest Control. I'm not technical, so explain
-things simply and do as much as possible for me. My consultant Logan built
-tooling so I can ask plain-English questions about my FieldRoutes data
-(customers, balances, schedules). Set me up, step by step:
+Hi Claude — I'm Sean, owner of Crescent Pest Control. I'm not technical. My
+consultant Logan set up tools so I can ask plain-English questions about my
+FieldRoutes data (customers, balances, schedules). Your job is to do
+EVERYTHING for me, and when a step genuinely needs me, tell me exactly what
+to do in plain words — one step at a time, no jargon.
 
-1. Clone the private repo https://github.com/Crescent-Pest/Crescent-CRM.git
-   into my Documents folder (skip if already cloned) and work in that folder
-   from now on. If a GitHub sign-in window pops up, I'll log in myself.
-2. Read ASK-YOUR-DATA.md and AGENTS.md — they explain the data tools and the
-   rules, including the 50-reads-per-day API limit.
-3. Check whether Node.js is installed. If not, install the LTS version for me
-   and confirm it runs.
-4. Logan sent me a finished credentials file named .env.import — I'll tell
-   you where I saved it (probably Downloads). Move it into the repo folder,
-   fixing the filename if it got mangled in transit. If I don't have the
-   file, copy .env.import.example to .env.import instead and open it in
-   Notepad so I can paste in my FieldRoutes API key and token myself.
-   Never ask me to paste the keys into this chat.
-5. Run one small test query to confirm the keys work.
-6. Pull my customer data to my computer (stay under 25 API reads).
-7. Then show me: how many active customers I have, who owes money and how
+Run through this checklist:
+
+1. Look in my Downloads folder for the credentials file Logan sent me. It
+   should be named .env.import, but it may have arrived as env-import.txt
+   or similar. If you can't find it, tell me exactly how to save it from
+   Logan's message (tap the attachment, choose Save or Download) and wait
+   for me to say it's done. NEVER ask me to paste the file's contents into
+   this chat.
+2. Clone https://github.com/Crescent-Pest/Crescent-CRM.git into my
+   Documents folder (skip if it's already there) and work in that folder
+   from now on. If a GitHub sign-in window pops up, tell me and walk me
+   through logging in.
+3. Move the credentials file into that folder yourself, renaming it to
+   exactly .env.import if needed.
+4. Read ASK-YOUR-DATA.md and AGENTS.md in the folder — they explain the
+   data tools and the rules, including the 50-API-reads-per-day limit.
+5. Check whether Node.js is installed. If it isn't, install the LTS
+   version for me and confirm it works.
+6. Run one small test query to confirm my keys work, and tell me in plain
+   English whether it worked.
+7. Pull my customer data to my computer (stay under 25 API reads).
+8. Then show me: how many active customers I have, who owes money and how
    much, and how many customers are on autopay — and suggest 5 more
    questions I could ask about my data.
+
+After that, I'll just ask questions in plain English whenever I want.
 ```
 
 ## Daily use
