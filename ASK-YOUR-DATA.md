@@ -19,9 +19,12 @@ tooling so I can ask plain-English questions about my FieldRoutes data
    rules, including the 50-reads-per-day API limit.
 3. Check whether Node.js is installed. If not, install the LTS version for me
    and confirm it runs.
-4. Copy .env.import.example to .env.import and open it in Notepad for me.
-   I'll paste in my FieldRoutes API key and token, save, and close — then
-   I'll tell you "done". Never ask me to paste the keys into this chat.
+4. Logan sent me a finished credentials file named .env.import — I'll tell
+   you where I saved it (probably Downloads). Move it into the repo folder,
+   fixing the filename if it got mangled in transit. If I don't have the
+   file, copy .env.import.example to .env.import instead and open it in
+   Notepad so I can paste in my FieldRoutes API key and token myself.
+   Never ask me to paste the keys into this chat.
 5. Run one small test query to confirm the keys work.
 6. Pull my customer data to my computer (stay under 25 API reads).
 7. Then show me: how many active customers I have, who owes money and how
