@@ -84,3 +84,84 @@ export function customerName(c: Pick<Customer, "type" | "first_name" | "last_nam
     ? c.company_name
     : `${c.first_name} ${c.last_name}`.trim();
 }
+
+// ---------- Field activity (written by the Crescent Inspect app; read-only here) ----------
+
+export type InspectionStatus = "draft" | "presented" | "sold";
+export type ActionItemPriority = "normal" | "urgent";
+export type ActionItemStatus = "open" | "done";
+
+/** One ranked pest guess from Inspect's AI identify step. Advisory only. */
+export interface PestCandidate {
+  common_name: string;
+  scientific_name: string;
+  /** 0–1 */
+  confidence: number;
+  evidence: string[];
+}
+
+export interface EstimateBreakdown {
+  lines: { label: string; amount_cents: number }[];
+  recurring_cents: number;
+  demo: boolean;
+  sqft: number | null;
+}
+
+export interface Inspection {
+  id: string;
+  created_at: string;
+  tech_id: string | null;
+  customer_id: string | null;
+  property_id: string | null;
+  /** object path in the private inspection-photos storage bucket */
+  photo_path: string | null;
+  /** pest catalog slug confirmed by the tech */
+  pest_confirmed: string | null;
+  pest_candidates: PestCandidate[] | null;
+  confidence: number | null;
+  /** AI-generated treatment plan (markdown) */
+  plan_md: string | null;
+  estimate_cents: number | null;
+  estimate_breakdown: EstimateBreakdown | null;
+  status: InspectionStatus;
+  notes: string | null;
+}
+
+/** AI-structured content of a visit note, reviewed by the tech before saving. */
+export interface StructuredNote {
+  summary: string;
+  customer_commitments: string[];
+  action_items: {
+    description: string;
+    due_date: string | null;
+    priority: ActionItemPriority;
+  }[];
+  mentioned_customer: string | null;
+  /** customer name the tech typed on the review screen, if any */
+  customer_name?: string | null;
+}
+
+export interface VisitNote {
+  id: string;
+  created_at: string;
+  tech_id: string | null;
+  customer_id: string | null;
+  inspection_id: string | null;
+  /** object path in the private voice-notes storage bucket (null for dictated notes) */
+  audio_path: string | null;
+  transcript: string | null;
+  summary: string | null;
+  structured: StructuredNote | null;
+}
+
+export interface ActionItem {
+  id: string;
+  created_at: string;
+  visit_note_id: string | null;
+  tech_id: string | null;
+  description: string;
+  due_date: string | null;
+  priority: ActionItemPriority;
+  status: ActionItemStatus;
+  done_at: string | null;
+}
