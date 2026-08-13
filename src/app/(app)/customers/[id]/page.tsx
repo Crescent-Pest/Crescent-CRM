@@ -10,6 +10,7 @@ import { PhoneLink } from "@/components/phone";
 import { frequencyLabel } from "../planFrequency";
 import { PropertyForm } from "./PropertyForm";
 import { PlanForm } from "./PlanForm";
+import { FieldActivity } from "./FieldActivity";
 
 interface PropertyWithPlans extends Property {
   service_plans: ServicePlan[];
@@ -251,6 +252,8 @@ export default async function CustomerDetailPage({
               </ul>
             )}
           </section>
+
+          <FieldActivity customerId={customer.id} />
         </div>
 
         <div className="space-y-6">
