@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertTriangle, CalendarClock } from "lucide-react";
+import { AlertTriangle, CalendarClock, ListTodo } from "lucide-react";
 import { QuickAdd } from "@/components/QuickAdd";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -9,6 +9,7 @@ import {
   type JobRow,
   type PlanNeedingScheduling,
 } from "@/lib/queries";
+import { fetchFollowupCounts } from "@/lib/fieldActivity";
 import { addDaysISO, formatDate, formatLongDate, formatWindow, todayISO } from "@/lib/format";
 import { scheduleNextForPlan } from "@/lib/actions/plans";
 import { customerName } from "@/lib/types";
@@ -85,17 +86,19 @@ export default async function DashboardPage() {
   const today = todayISO();
   const supabase = await createClient();
 
-  const [todayJobs, weekJobs, overdue, unscheduledPlans, customerCount] = await Promise.all([
-    fetchJobsBetween(today, today),
-    fetchJobsBetween(addDaysISO(today, 1), addDaysISO(today, 7)),
-    fetchOverdueJobs(today),
-    fetchPlansNeedingScheduling(today),
-    supabase
-      .from("customers")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "active")
-      .then(({ count }) => count ?? 0),
-  ]);
+  const [todayJobs, weekJobs, overdue, unscheduledPlans, customerCount, followups] =
+    await Promise.all([
+      fetchJobsBetween(today, today),
+      fetchJobsBetween(addDaysISO(today, 1), addDaysISO(today, 7)),
+      fetchOverdueJobs(today),
+      fetchPlansNeedingScheduling(today),
+      supabase
+        .from("customers")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "active")
+        .then(({ count }) => count ?? 0),
+      fetchFollowupCounts(today),
+    ]);
 
   const stats = [
     {
@@ -153,6 +156,38 @@ export default async function DashboardPage() {
           </Link>
         ))}
       </div>
+
+      {followups.open > 0 && (
+        <section className="mt-6 md:mt-8">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
+            <ListTodo size={18} /> Field follow-ups
+          </h2>
+          <Link
+            href="/followups"
+            className={`flex items-center justify-between gap-3 rounded-lg border bg-card px-4 py-3 transition-colors ${
+              followups.overdue > 0
+                ? "border-danger/40 hover:border-danger"
+                : "border-line hover:border-denim"
+            }`}
+          >
+            <p className="text-sm">
+              <span className="font-display text-lg font-bold text-denim">
+                {followups.open}
+              </span>{" "}
+              open
+              {followups.overdue > 0 && (
+                <span className="font-semibold text-danger">
+                  {" "}
+                  · {followups.overdue} overdue
+                </span>
+              )}
+            </p>
+            <span className="text-sm font-semibold text-ink-soft">
+              View follow-ups
+            </span>
+          </Link>
+        </section>
+      )}
 
       {unscheduledPlans.length > 0 && (
         <section className="mt-6 md:mt-8">
