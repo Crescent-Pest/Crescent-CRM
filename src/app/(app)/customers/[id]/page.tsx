@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, Phone, Mail, CalendarPlus, Pencil } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { addNote, setCustomerStatus } from "@/lib/actions/customers";
+import { fetchCustomerSyncStatus, type CustomerSyncStatus } from "@/lib/fieldroutesSync";
 import { formatDate, formatMoney, formatWindow } from "@/lib/format";
 import { customerName, type Customer, type Job, type Property, type ServicePlan } from "@/lib/types";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -21,6 +22,17 @@ interface NoteRow {
   body: string;
   created_at: string;
   author: { full_name: string } | null;
+}
+
+/** "#12345 · 2 pending" — the outbox state in as few words as possible */
+function syncSummary(customer: Customer, sync: CustomerSyncStatus) {
+  const parts = [customer.fieldroutes_id ? `#${customer.fieldroutes_id}` : "not pushed yet"];
+  if (sync.pending > 0) parts.push(`${sync.pending} pending`);
+  if (sync.failed > 0) parts.push(`${sync.failed} failed`);
+  if (sync.pending === 0 && sync.failed === 0 && sync.syncedAt) {
+    parts.push(`synced ${formatDate(sync.syncedAt.slice(0, 10))}`);
+  }
+  return parts.join(" · ");
 }
 
 const errorMessage: Record<string, string> = {
@@ -56,7 +68,7 @@ export default async function CustomerDetailPage({
   const properties = (propData ?? []) as PropertyWithPlans[];
   const propertyIds = properties.map((p) => p.id);
 
-  const [{ data: jobData }, { data: noteData }] = await Promise.all([
+  const [{ data: jobData }, { data: noteData }, sync] = await Promise.all([
     propertyIds.length
       ? supabase
           .from("jobs")
@@ -71,6 +83,7 @@ export default async function CustomerDetailPage({
       .eq("customer_id", id)
       .order("created_at", { ascending: false })
       .limit(20),
+    fetchCustomerSyncStatus(id),
   ]);
   const jobs = (jobData ?? []) as Job[];
   const notes = (noteData ?? []) as unknown as NoteRow[];
@@ -104,6 +117,12 @@ export default async function CustomerDetailPage({
               </span>
             )}
           </p>
+          {(customer.fieldroutes_id || sync.pending > 0 || sync.failed > 0) && (
+            <p className="mt-1 text-xs text-ink-soft">
+              FieldRoutes: {syncSummary(customer, sync)}
+              {sync.lastError && <span className="text-danger"> — {sync.lastError}</span>}
+            </p>
+          )}
         </div>
         <div className="flex gap-2">
           <Link href={`/customers/${customer.id}/edit`} className="btn-ghost">

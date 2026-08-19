@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertTriangle, CalendarClock, ListTodo } from "lucide-react";
+import { AlertTriangle, CalendarClock, ListTodo, RefreshCw } from "lucide-react";
 import { QuickAdd } from "@/components/QuickAdd";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -10,6 +10,7 @@ import {
   type PlanNeedingScheduling,
 } from "@/lib/queries";
 import { fetchFollowupCounts } from "@/lib/fieldActivity";
+import { fetchSyncQueueCounts } from "@/lib/fieldroutesSync";
 import { addDaysISO, formatDate, formatLongDate, formatWindow, todayISO } from "@/lib/format";
 import { scheduleNextForPlan } from "@/lib/actions/plans";
 import { customerName } from "@/lib/types";
@@ -86,19 +87,27 @@ export default async function DashboardPage() {
   const today = todayISO();
   const supabase = await createClient();
 
-  const [todayJobs, weekJobs, overdue, unscheduledPlans, customerCount, followups] =
-    await Promise.all([
-      fetchJobsBetween(today, today),
-      fetchJobsBetween(addDaysISO(today, 1), addDaysISO(today, 7)),
-      fetchOverdueJobs(today),
-      fetchPlansNeedingScheduling(today),
-      supabase
-        .from("customers")
-        .select("id", { count: "exact", head: true })
-        .eq("status", "active")
-        .then(({ count }) => count ?? 0),
-      fetchFollowupCounts(today),
-    ]);
+  const [
+    todayJobs,
+    weekJobs,
+    overdue,
+    unscheduledPlans,
+    customerCount,
+    followups,
+    syncQueue,
+  ] = await Promise.all([
+    fetchJobsBetween(today, today),
+    fetchJobsBetween(addDaysISO(today, 1), addDaysISO(today, 7)),
+    fetchOverdueJobs(today),
+    fetchPlansNeedingScheduling(today),
+    supabase
+      .from("customers")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "active")
+      .then(({ count }) => count ?? 0),
+    fetchFollowupCounts(today),
+    fetchSyncQueueCounts(),
+  ]);
 
   const stats = [
     {
@@ -186,6 +195,35 @@ export default async function DashboardPage() {
               View follow-ups
             </span>
           </Link>
+        </section>
+      )}
+
+      {(syncQueue.pending > 0 || syncQueue.failed > 0) && (
+        <section className="mt-6 md:mt-8">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base font-bold uppercase tracking-wide md:text-lg text-denim-ink">
+            <RefreshCw size={18} /> FieldRoutes sync
+          </h2>
+          <div
+            className={`flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-lg border bg-card px-4 py-3 ${
+              syncQueue.failed > 0 ? "border-danger/40" : "border-line"
+            }`}
+          >
+            <p className="text-sm">
+              <span className="font-display text-lg font-bold text-denim">
+                {syncQueue.pending}
+              </span>{" "}
+              waiting to push
+              {syncQueue.failed > 0 && (
+                <span className="font-semibold text-danger">
+                  {" "}
+                  · {syncQueue.failed} failed
+                </span>
+              )}
+            </p>
+            <span className="text-sm text-ink-soft">
+              Run node scripts/sync-fieldroutes.mjs
+            </span>
+          </div>
         </section>
       )}
 
