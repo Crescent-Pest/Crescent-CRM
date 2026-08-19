@@ -93,7 +93,11 @@ async function stage(file) {
   const mapper = mappers[entity];
   if (!mapper) { console.error(`No mapper for entity "${entity}" yet`); process.exit(1); }
 
-  const rows = parseCSV(readFileSync(file, "utf8"));
+  // Accepts either a FieldRoutes CSV export or a JSON dump produced by
+  // Crescent-Inspect's pull-fieldroutes.mjs ({records: [...]}).
+  const rows = file.endsWith(".json")
+    ? JSON.parse(readFileSync(file, "utf8")).records
+    : parseCSV(readFileSync(file, "utf8"));
   console.log(`Parsed ${rows.length} rows from ${file}`);
 
   const supabase = makeClient();
