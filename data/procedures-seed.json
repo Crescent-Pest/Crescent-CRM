@@ -1,0 +1,1890 @@
+{
+  "procedures": [
+    {
+      "id": "proc-residential-service",
+      "slug": "residential-pest-plus-rodent-service",
+      "title": "Residential Pest Control Plus Rodent Service Process",
+      "summary": "The six-step field workflow for a residential pest and rodent visit, from route verification through closing the job in the system. Follow this on every scheduled residential service.",
+      "category": "Service Workflow",
+      "frequency": "Every scheduled visit",
+      "sort": 1,
+      "updated_at": "2026-07-20"
+    },
+    {
+      "id": "proc-single-family",
+      "slug": "single-family-pest-prevention",
+      "title": "Single Family Home Pest Prevention Procedure",
+      "summary": "The master exterior-based prevention procedure for single family homes: program coverage, initial inspection, preventative perimeter treatment, rodent stations for Plus customers, and the seasonal chemical rotation.",
+      "category": "Service Procedures",
+      "frequency": "4x per year",
+      "sort": 2,
+      "updated_at": "2026-07-20"
+    }
+  ],
+  "sections": [
+    {
+      "id": "sec-rs-scope",
+      "procedure_id": "proc-residential-service",
+      "title": "Scope & Purpose",
+      "position": 1
+    },
+    {
+      "id": "sec-rs-route",
+      "procedure_id": "proc-residential-service",
+      "title": "1. Verify Route",
+      "position": 2
+    },
+    {
+      "id": "sec-rs-contact",
+      "procedure_id": "proc-residential-service",
+      "title": "2. Contact Customer",
+      "position": 3
+    },
+    {
+      "id": "sec-rs-arrival",
+      "procedure_id": "proc-residential-service",
+      "title": "3. Arrival at Customer Premise",
+      "position": 4
+    },
+    {
+      "id": "sec-rs-inspection",
+      "procedure_id": "proc-residential-service",
+      "title": "4. Property Inspection",
+      "position": 5
+    },
+    {
+      "id": "sec-rs-treatment",
+      "procedure_id": "proc-residential-service",
+      "title": "5. Treatment",
+      "position": 6
+    },
+    {
+      "id": "sec-rs-end",
+      "procedure_id": "proc-residential-service",
+      "title": "6. End of Service",
+      "position": 7
+    },
+    {
+      "id": "sec-sf-overview",
+      "procedure_id": "proc-single-family",
+      "title": "Overview & Programs",
+      "position": 1
+    },
+    {
+      "id": "sec-sf-initial",
+      "procedure_id": "proc-single-family",
+      "title": "Initial Visit & Inspection",
+      "position": 2
+    },
+    {
+      "id": "sec-sf-preventative",
+      "procedure_id": "proc-single-family",
+      "title": "Preventative Treatments",
+      "position": 3
+    },
+    {
+      "id": "sec-sf-rodent",
+      "procedure_id": "proc-single-family",
+      "title": "Rodent Stations (Plus Add-on)",
+      "position": 4
+    },
+    {
+      "id": "sec-sf-rotation",
+      "procedure_id": "proc-single-family",
+      "title": "Seasonal Chemical Rotation",
+      "position": 5
+    },
+    {
+      "id": "sec-sf-finished",
+      "procedure_id": "proc-single-family",
+      "title": "When Finished",
+      "position": 6
+    },
+    {
+      "id": "sec-sf-materials",
+      "procedure_id": "proc-single-family",
+      "title": "Materials & Equipment",
+      "position": 7
+    },
+    {
+      "id": "sec-sf-education",
+      "procedure_id": "proc-single-family",
+      "title": "Customer Education",
+      "position": 8
+    }
+  ],
+  "steps": [
+    {
+      "id": "step-rs-001",
+      "section_id": "sec-rs-scope",
+      "content": "Who: technicians performing residential pest and rodent services.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-002",
+      "section_id": "sec-rs-scope",
+      "content": "What: conduct a full residential pest and rodent service, including inspection, treatment, and recommendations for additional services.",
+      "kind": "step",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-003",
+      "section_id": "sec-rs-scope",
+      "content": "When: during scheduled service appointments, typically recurring or one-time services as assigned.",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-004",
+      "section_id": "sec-rs-scope",
+      "content": "Where: customer premises - residential properties requiring pest and rodent management.",
+      "kind": "step",
+      "indent": 0,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-005",
+      "section_id": "sec-rs-scope",
+      "content": "Why: to deliver consistent, high-quality pest control that protects customer homes and properties from pests and rodents, keeps documentation accurate, supports recommendations for future services, and maintains safety, efficiency, and professionalism throughout the visit.",
+      "kind": "step",
+      "indent": 0,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-006",
+      "section_id": "sec-rs-route",
+      "content": "Confirm the customer address and name.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-007",
+      "section_id": "sec-rs-route",
+      "content": "Ensure all required chemicals and equipment are on hand before you leave.",
+      "kind": "step",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-008",
+      "section_id": "sec-rs-route",
+      "content": "Check which product the seasonal rotation calls for this month before you load the truck - see the Seasonal Chemical Rotation section of the Single Family Home Pest Prevention procedure.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": [
+        "chem-barricor",
+        "chem-taurus-sc",
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-rs-009",
+      "section_id": "sec-rs-contact",
+      "content": "Call the customer to:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-010",
+      "section_id": "sec-rs-contact",
+      "content": "Provide your estimated time of arrival (ETA).",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-011",
+      "section_id": "sec-rs-contact",
+      "content": "Confirm the expected service time.",
+      "kind": "step",
+      "indent": 1,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-012",
+      "section_id": "sec-rs-contact",
+      "content": "Ask about parking or access requirements.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-013",
+      "section_id": "sec-rs-contact",
+      "content": "If there is no response to the call, follow up with a text message.",
+      "kind": "step",
+      "indent": 0,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-014",
+      "section_id": "sec-rs-arrival",
+      "content": "Back into the driveway.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-015",
+      "section_id": "sec-rs-arrival",
+      "content": "Check in for the job:",
+      "kind": "step",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-016",
+      "section_id": "sec-rs-arrival",
+      "content": "Verify your arrival time in the system.",
+      "kind": "step",
+      "indent": 1,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-017",
+      "section_id": "sec-rs-arrival",
+      "content": "Update admin with your real-time location.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-018",
+      "section_id": "sec-rs-arrival",
+      "content": "Knock on the door and introduce yourself:",
+      "kind": "step",
+      "indent": 0,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-019",
+      "section_id": "sec-rs-arrival",
+      "content": "Explain the estimated duration of the service.",
+      "kind": "step",
+      "indent": 1,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-020",
+      "section_id": "sec-rs-arrival",
+      "content": "Collect payment if it is not already in the system.",
+      "kind": "step",
+      "indent": 1,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-021",
+      "section_id": "sec-rs-arrival",
+      "content": "Ask pest control questions to understand the issues both inside and outside the home.",
+      "kind": "step",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-022",
+      "section_id": "sec-rs-inspection",
+      "content": "Inspect the property and check for:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-023",
+      "section_id": "sec-rs-inspection",
+      "content": "Wood rot - important for termite detection.",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-024",
+      "section_id": "sec-rs-inspection",
+      "content": "Rodent feces or other signs of infestation.",
+      "kind": "step",
+      "indent": 1,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-025",
+      "section_id": "sec-rs-inspection",
+      "content": "Missing vents.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-026",
+      "section_id": "sec-rs-inspection",
+      "content": "Water leakage around pipes.",
+      "kind": "step",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-027",
+      "section_id": "sec-rs-inspection",
+      "content": "Shrubbery or foliage too close to the house.",
+      "kind": "step",
+      "indent": 1,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-028",
+      "section_id": "sec-rs-inspection",
+      "content": "Wood rot, mud tubes, or damaged sill plates mean a termite inspection, not a general pest treatment. Write it up as a finding and quote a termite service: Termidor HE at 1.6 fl oz per gallon for a liquid treatment, or Sentricon Recruit HD at one station every 10 ft for a baiting system.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 7,
+      "chemical_ids": [
+        "chem-termidor-he",
+        "chem-sentricon-recruit-hd"
+      ]
+    },
+    {
+      "id": "step-rs-029",
+      "section_id": "sec-rs-inspection",
+      "content": "Note anything you find on the ticket as you go. Findings drive the proposal conversation in step 6 and are the record if the customer calls back later.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-030",
+      "section_id": "sec-rs-treatment",
+      "content": "De-webbing:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-031",
+      "section_id": "sec-rs-treatment",
+      "content": "Remove spiderwebs, wasp nests, and mud daubers.",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-032",
+      "section_id": "sec-rs-treatment",
+      "content": "Spraying:",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-033",
+      "section_id": "sec-rs-treatment",
+      "content": "Apply a 3 ft by 3 ft barrier around the home.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": [
+        "chem-barricor",
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-rs-034",
+      "section_id": "sec-rs-treatment",
+      "content": "Barrier width conflict between documents: this workflow specifies a 3 ft by 3 ft barrier, while the Single Family Home Pest Prevention procedure specifies 1 ft up and 1 ft out. Taurus SC's label prohibits application further than 1 ft from the structure. Follow the product label first, then confirm the company standard with your Service Manager.",
+      "kind": "warning",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-rs-035",
+      "section_id": "sec-rs-treatment",
+      "content": "Spray above the eaves.",
+      "kind": "step",
+      "indent": 1,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-036",
+      "section_id": "sec-rs-treatment",
+      "content": "Wear the safety gear required by the product label: gloves, goggles, and any other gear the label specifies.",
+      "kind": "warning",
+      "indent": 1,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-037",
+      "section_id": "sec-rs-treatment",
+      "content": "Granular application:",
+      "kind": "step",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-038",
+      "section_id": "sec-rs-treatment",
+      "content": "Spread granules around the property with a granular spreader.",
+      "kind": "step",
+      "indent": 1,
+      "position": 9,
+      "chemical_ids": [
+        "chem-niban"
+      ]
+    },
+    {
+      "id": "step-rs-039",
+      "section_id": "sec-rs-treatment",
+      "content": "Keep granular bait out of areas you have sprayed with a repellent residual. Spray residue on bait contaminates it and pests will not feed.",
+      "kind": "warning",
+      "indent": 1,
+      "position": 10,
+      "chemical_ids": [
+        "chem-niban",
+        "chem-barricor",
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-rs-040",
+      "section_id": "sec-rs-treatment",
+      "content": "Walk around the home to collect all equipment after the treatment.",
+      "kind": "step",
+      "indent": 0,
+      "position": 11,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-041",
+      "section_id": "sec-rs-end",
+      "content": "Discuss your findings with the customer:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-042",
+      "section_id": "sec-rs-end",
+      "content": "Highlight any issues found and any opportunities for additional services.",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-043",
+      "section_id": "sec-rs-end",
+      "content": "Present the Residential Pest Proposal for additional services:",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-044",
+      "section_id": "sec-rs-end",
+      "content": "Quote each service.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-045",
+      "section_id": "sec-rs-end",
+      "content": "Fill out and verify the form.",
+      "kind": "step",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-046",
+      "section_id": "sec-rs-end",
+      "content": "Collect the customer's signature.",
+      "kind": "step",
+      "indent": 1,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-047",
+      "section_id": "sec-rs-end",
+      "content": "If no signature is obtained in real time, follow up within 24-48 hours.",
+      "kind": "step",
+      "indent": 1,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-048",
+      "section_id": "sec-rs-end",
+      "content": "Upload the proposal to the customer card.",
+      "kind": "step",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-049",
+      "section_id": "sec-rs-end",
+      "content": "Thank the customer and request a review.",
+      "kind": "step",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-050",
+      "section_id": "sec-rs-end",
+      "content": "Upload all service notes into the customer card for future reference.",
+      "kind": "step",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-rs-051",
+      "section_id": "sec-rs-end",
+      "content": "Close out the job in the system.",
+      "kind": "step",
+      "indent": 0,
+      "position": 11,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-001",
+      "section_id": "sec-sf-overview",
+      "content": "Service frequency: four times per year.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-002",
+      "section_id": "sec-sf-overview",
+      "content": "Crescent offers two main general pest service programs: the Essential Pest Prevention program and the Advanced Pest Management program.",
+      "kind": "step",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-003",
+      "section_id": "sec-sf-overview",
+      "content": "Add-on services are available for an additional charge, including our Plus service (rodents), mosquito services, and termite services.",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-004",
+      "section_id": "sec-sf-overview",
+      "content": "Any \"Plus\" designation denotes a customer who has purchased the rodent management add-on for their exterior services.",
+      "kind": "step",
+      "indent": 0,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-005",
+      "section_id": "sec-sf-overview",
+      "content": "If there is an interior rodent infestation, inspections to verify activity are included free of charge for Plus customers. Otherwise the inspection is $175.00 during normal business hours and $300.00 outside normal business hours.",
+      "kind": "step",
+      "indent": 0,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-006",
+      "section_id": "sec-sf-overview",
+      "content": "Any customer with a Plus plan is entitled to a 30% discount on rodent related service calls and/or exclusion work.",
+      "kind": "step",
+      "indent": 0,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-007",
+      "section_id": "sec-sf-overview",
+      "content": "Treatments are EXTERIOR BASED. The service follows Assessment Based Pest Management ideals that implement Integrated Pest Management techniques: we rely heavily on specific treatments and pinpoint placement of products to solve the specific pest issues that arise.",
+      "kind": "step",
+      "indent": 0,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-008",
+      "section_id": "sec-sf-overview",
+      "content": "Interior treatments are only performed on the initial service, or when interior activity or infestation has been verified by one of our trained professionals.",
+      "kind": "step",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-009",
+      "section_id": "sec-sf-overview",
+      "content": "Because the primary treatments are on the exterior, in most cases the customer does not need to be home for service to be rendered.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-010",
+      "section_id": "sec-sf-overview",
+      "content": "Essential Pest Prevention covers common crawling pests: most ants, spiders up to 15 feet, earwigs, centipedes, millipedes, crickets, outdoor roaches, silverfish, stinkbugs, Asian lady beetles, and boxelder bugs.",
+      "kind": "step",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-011",
+      "section_id": "sec-sf-overview",
+      "content": "Essential excludes bed bugs, German roaches, flying insects, stored product pests, fleas, ticks, carpenter ants, fire ants, wood destroying organisms, stinging insects, and lawn/ornamental pests.",
+      "kind": "step",
+      "indent": 1,
+      "position": 11,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-012",
+      "section_id": "sec-sf-overview",
+      "content": "Advanced Pest Management includes every pest covered by Essential Pest Prevention, plus interior fruit flies, house flies, and cluster flies, and exterior mud daubers, wasps, yellowjackets, and hornets up to 20 feet high. Rodent prevention stations and maintenance are also included.",
+      "kind": "step",
+      "indent": 0,
+      "position": 12,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-013",
+      "section_id": "sec-sf-overview",
+      "content": "Advanced excludes bed bugs, German roaches, stored product pests, fleas, ticks, carpenter ants, fire ants, carpenter bees, honeybees, wood destroying organisms, and lawn/ornamental pests.",
+      "kind": "step",
+      "indent": 1,
+      "position": 13,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-014",
+      "section_id": "sec-sf-overview",
+      "content": "Interior treatments are provided when necessary and/or when requested due to insect evidence. Service includes additional visits at no charge between the normally scheduled visits if insect evidence requires them.",
+      "kind": "step",
+      "indent": 0,
+      "position": 14,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-015",
+      "section_id": "sec-sf-overview",
+      "content": "Covered areas include the home and all living spaces associated with it, including but not limited to patios, decks, playgrounds, and detached garages.",
+      "kind": "step",
+      "indent": 0,
+      "position": 15,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-016",
+      "section_id": "sec-sf-overview",
+      "content": "Coverage language for interior service and limited bed bug coverage is still being finalized in the customer agreement. Confirm current contract terms with the office before you promise coverage to a customer.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 16,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-017",
+      "section_id": "sec-sf-initial",
+      "content": "The customer is most likely starting service because of a current pest issue. Address their current issue first using the appropriate pest specific procedure, then treat the perimeter for pest prevention if it does not conflict with that pest specific procedure.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-018",
+      "section_id": "sec-sf-initial",
+      "content": "Do not layer a repellent over a non-repellent. For example, if you treat the perimeter for ants with a non-repellent, do not spray a repellent such as Demand CS on top of it.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": [
+        "chem-demand-cs",
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-019",
+      "section_id": "sec-sf-initial",
+      "content": "Arrive on time. If you are running late or early, call the customer to let them know. This is the customer's first contact with us for services - make a great first impression and go above and beyond.",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-020",
+      "section_id": "sec-sf-initial",
+      "content": "Interview the customer. Find out what problems they are having and where they are having them. Then, using your flashlight, inspect those areas looking for signs of active infestations.",
+      "kind": "step",
+      "indent": 0,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-021",
+      "section_id": "sec-sf-initial",
+      "content": "Let the customer know what you are going to do and discuss their expectations.",
+      "kind": "step",
+      "indent": 0,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-022",
+      "section_id": "sec-sf-initial",
+      "content": "Take this time to educate the customer on what their pest management experience will look like.",
+      "kind": "step",
+      "indent": 0,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-023",
+      "section_id": "sec-sf-initial",
+      "content": "Check for toys, pet dishes, exposed food, and anything else that needs to be moved before treatment begins.",
+      "kind": "step",
+      "indent": 0,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-024",
+      "section_id": "sec-sf-initial",
+      "content": "Trees should be cut back a minimum of 10 feet from the home and small shrubs should be at least 6 inches from the building. This gives us room to treat and eliminates additional access points pests may use to enter the home.",
+      "kind": "step",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-025",
+      "section_id": "sec-sf-initial",
+      "content": "Look for any condition that may attract insects or provide a home for them: standing water, excess moisture near the house, overgrown landscaping, wood stacked against the house, trash and recycle bins. Note any problems and let the customer know.",
+      "kind": "step",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-026",
+      "section_id": "sec-sf-initial",
+      "content": "Keep an eye out for other pests or conditions that may be upsell opportunities, such as termites, bed bugs, or the need for exclusion services.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-027",
+      "section_id": "sec-sf-preventative",
+      "content": "On initial treatments only:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-028",
+      "section_id": "sec-sf-preventative",
+      "content": "You may have specific pests to treat. Follow that pest specific procedure and do those treatments first to address the customer's concerns.",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-029",
+      "section_id": "sec-sf-preventative",
+      "content": "If the pest specific treatment required baits or non-repellent sprays, be sure not to contaminate them with repellent products when you make your preventative application to the perimeter.",
+      "kind": "warning",
+      "indent": 1,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-030",
+      "section_id": "sec-sf-preventative",
+      "content": "On the initial service only, also treat interior hot spot areas such as entry points, ground level window sills, kitchens, and bathrooms if needed.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-031",
+      "section_id": "sec-sf-preventative",
+      "content": "If the customer also has the Plus add-on covering rodents, check for any rodent activity in the attic.",
+      "kind": "step",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-032",
+      "section_id": "sec-sf-preventative",
+      "content": "For German roaches, stick with Alpine WSG plus Gentrol IGR. The pure non-repellent approach allows roaches to walk through treated areas unknowingly and transfer lethal doses back to the harborage.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 6,
+      "chemical_ids": [
+        "chem-alpine-wsg",
+        "chem-gentrol-igr"
+      ]
+    },
+    {
+      "id": "step-sf-033",
+      "section_id": "sec-sf-preventative",
+      "content": "For a cleanout on an active infestation, Ridesco WG is the non-repellent used on the exterior exclusively. Active infestation cleanout work must be performed by a certified technician.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 7,
+      "chemical_ids": [
+        "chem-ridesco-wg"
+      ]
+    },
+    {
+      "id": "step-sf-034",
+      "section_id": "sec-sf-preventative",
+      "content": "On a service call for ants or roaches, Fipronil Plus-C at 0.75 fl oz per gallon is the exterior spot treatment. Spot treatment only - it is not a full perimeter product.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": [
+        "chem-fipronil-plus-c"
+      ]
+    },
+    {
+      "id": "step-sf-035",
+      "section_id": "sec-sf-preventative",
+      "content": "On all treatments, knock down any spiderwebs up to 15 feet high with the Webster brush. Spraying webs tends to plaster them to the house, making them more difficult to remove.",
+      "kind": "step",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-036",
+      "section_id": "sec-sf-preventative",
+      "content": "As you walk the perimeter knocking down webs, make sure all toys, furniture, grills, and similar items are safely out of the area you will be treating.",
+      "kind": "step",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-037",
+      "section_id": "sec-sf-preventative",
+      "content": "For Advanced Pest Management clients, knock down and/or treat any wasp nests at the first floor level.",
+      "kind": "step",
+      "indent": 0,
+      "position": 11,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-038",
+      "section_id": "sec-sf-preventative",
+      "content": "On all treatments, treat the perimeter of the home with a liquid residual according to the seasonal rotation schedule - see the Seasonal Chemical Rotation section.",
+      "kind": "step",
+      "indent": 0,
+      "position": 12,
+      "chemical_ids": [
+        "chem-barricor",
+        "chem-taurus-sc",
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-sf-039",
+      "section_id": "sec-sf-preventative",
+      "content": "Apply the appropriate product as per the label: 1 ft up and 1 ft out, and to all potential pest areas where pests live or may enter the home, as per label and state regulations, including:",
+      "kind": "step",
+      "indent": 0,
+      "position": 13,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-040",
+      "section_id": "sec-sf-preventative",
+      "content": "The bottom of exterior entry doors and 1 ft up each side. For the garage door you can treat around the entire perimeter as per label directions.",
+      "kind": "step",
+      "indent": 1,
+      "position": 14,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-041",
+      "section_id": "sec-sf-preventative",
+      "content": "Around windows with gaps - there is no need to spray well-sealing windows.",
+      "kind": "step",
+      "indent": 1,
+      "position": 15,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-042",
+      "section_id": "sec-sf-preventative",
+      "content": "Around vents, light fixtures, weep holes, and anywhere utility lines pass through exterior walls.",
+      "kind": "step",
+      "indent": 1,
+      "position": 16,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-043",
+      "section_id": "sec-sf-preventative",
+      "content": "All first floor soffits.",
+      "kind": "step",
+      "indent": 1,
+      "position": 17,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-044",
+      "section_id": "sec-sf-preventative",
+      "content": "Around garbage and recycle cans.",
+      "kind": "step",
+      "indent": 1,
+      "position": 18,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-045",
+      "section_id": "sec-sf-preventative",
+      "content": "Around firewood - do not treat the firewood itself.",
+      "kind": "step",
+      "indent": 1,
+      "position": 19,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-046",
+      "section_id": "sec-sf-preventative",
+      "content": "Do not treat in electrical meters, firewood, children's play equipment, or near water.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 20,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-047",
+      "section_id": "sec-sf-preventative",
+      "content": "Taurus SC has specific label restrictions you must follow: a maximum of 2 applications per year, and you cannot go further than 1 ft from the structure.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 21,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-048",
+      "section_id": "sec-sf-preventative",
+      "content": "Taurus SC is a non-repellent that ants cannot detect, so they spread it back to their colony. Use a dedicated non-repellent sprayer when applying it to prevent contamination with repellent products.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 22,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-049",
+      "section_id": "sec-sf-preventative",
+      "content": "The source procedure flags the Taurus SC application standard as pending internal discussion. Confirm current policy with your Service Manager before deviating from the label.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 23,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-050",
+      "section_id": "sec-sf-preventative",
+      "content": "On all treatments, treat with Niban (about 0.5 lb per home) as per the label in conducive areas around the perimeter of the home. Treat areas such as shrub beds along the home, around AC drip lines, wet areas, near trash cans, and other conducive areas. The treatment should be approximately 4 ft wide in conducive areas.",
+      "kind": "step",
+      "indent": 0,
+      "position": 24,
+      "chemical_ids": [
+        "chem-niban"
+      ]
+    },
+    {
+      "id": "step-sf-051",
+      "section_id": "sec-sf-preventative",
+      "content": "Apply Niban only in areas that were not sprayed with Barricor, Onslaught FastCap, or Taurus SC, to prevent bait contamination.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 25,
+      "chemical_ids": [
+        "chem-niban",
+        "chem-barricor",
+        "chem-onslaught-fastcap",
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-052",
+      "section_id": "sec-sf-preventative",
+      "content": "We prefer to use insect monitors or baits indoors if the customer requests indoor service but no specific pest is found. If pests are found indoors, follow that pest specific procedure.",
+      "kind": "step",
+      "indent": 0,
+      "position": 26,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-053",
+      "section_id": "sec-sf-rodent",
+      "content": "Place Protecta Evo Express rodent stations around the perimeter.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-054",
+      "section_id": "sec-sf-rodent",
+      "content": "Placing stations in conducive areas is more important than even spacing.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-055",
+      "section_id": "sec-sf-rodent",
+      "content": "Station counts by perimeter linear footage:",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-056",
+      "section_id": "sec-sf-rodent",
+      "content": "200 linear feet or less: place 6 rodent stations (5 Evo Express and 1 Evo Landscape).",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-057",
+      "section_id": "sec-sf-rodent",
+      "content": "200-300 linear feet: place 8 rodent stations (6 Evo Express and 2 Evo Landscape).",
+      "kind": "step",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-058",
+      "section_id": "sec-sf-rodent",
+      "content": "300-400 linear feet: place 12 rodent stations (8 Evo Express and 4 Evo Landscape).",
+      "kind": "step",
+      "indent": 1,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-059",
+      "section_id": "sec-sf-rodent",
+      "content": "Over 400 linear feet: discuss with your Service Manager.",
+      "kind": "step",
+      "indent": 1,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-060",
+      "section_id": "sec-sf-rodent",
+      "content": "Protecta Evo Circuit stations can also be used along walkways to eliminate tripping hazards.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-061",
+      "section_id": "sec-sf-rodent",
+      "content": "Place 4 Fasttrac Blox in each station initially.",
+      "kind": "step",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-062",
+      "section_id": "sec-sf-rodent",
+      "content": "Follow all label directions for proper placement of bait.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-063",
+      "section_id": "sec-sf-rodent",
+      "content": "On all treatments, if rodent stations are included in the service:",
+      "kind": "step",
+      "indent": 0,
+      "position": 11,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-064",
+      "section_id": "sec-sf-rodent",
+      "content": "Check all exterior Protecta Evo stations.",
+      "kind": "step",
+      "indent": 1,
+      "position": 12,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-065",
+      "section_id": "sec-sf-rodent",
+      "content": "If a station is broken or otherwise not secured, replace it with a new station immediately. Do not leave bait unsecured.",
+      "kind": "warning",
+      "indent": 1,
+      "position": 13,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-066",
+      "section_id": "sec-sf-rodent",
+      "content": "Replace bait as needed if it is consumed, becomes moldy, or otherwise deteriorates.",
+      "kind": "step",
+      "indent": 1,
+      "position": 14,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-067",
+      "section_id": "sec-sf-rodent",
+      "content": "For light activity, maintain at least two Fasttrac Blox in each station. If the bait is completely consumed, you can increase this up to eight Fasttrac Blox per station.",
+      "kind": "step",
+      "indent": 1,
+      "position": 15,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-068",
+      "section_id": "sec-sf-rodent",
+      "content": "Follow all label directions on the bait packaging.",
+      "kind": "step",
+      "indent": 1,
+      "position": 16,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-069",
+      "section_id": "sec-sf-rodent",
+      "content": "You may also move stations to areas of higher activity if needed.",
+      "kind": "step",
+      "indent": 1,
+      "position": 17,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-070",
+      "section_id": "sec-sf-rotation",
+      "content": "Treat the perimeter with a liquid residual on the following rotation:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-071",
+      "section_id": "sec-sf-rotation",
+      "content": "January / February: Barricor at 0.5 oz per gallon - long-lasting pyrethroid.",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": [
+        "chem-barricor"
+      ]
+    },
+    {
+      "id": "step-sf-072",
+      "section_id": "sec-sf-rotation",
+      "content": "March / April: Taurus at 0.8 oz per gallon - non-repellent, slow-acting.",
+      "kind": "step",
+      "indent": 1,
+      "position": 3,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-073",
+      "section_id": "sec-sf-rotation",
+      "content": "May / June: Onslaught FastCap at 1.0 oz per gallon - long-lasting pyrethroid.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": [
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-sf-074",
+      "section_id": "sec-sf-rotation",
+      "content": "July / August: Taurus at 0.8 oz per gallon - non-repellent, slow-acting.",
+      "kind": "step",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-075",
+      "section_id": "sec-sf-rotation",
+      "content": "September / October: Onslaught FastCap at 1.0 oz per gallon - long-lasting pyrethroid.",
+      "kind": "step",
+      "indent": 1,
+      "position": 6,
+      "chemical_ids": [
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-sf-076",
+      "section_id": "sec-sf-rotation",
+      "content": "November / December: Barricor at 0.5 oz per gallon - long-lasting pyrethroid.",
+      "kind": "step",
+      "indent": 1,
+      "position": 7,
+      "chemical_ids": [
+        "chem-barricor"
+      ]
+    },
+    {
+      "id": "step-sf-077",
+      "section_id": "sec-sf-rotation",
+      "content": "The rotation schedules Taurus SC twice a year (March/April and July/August), which is the label maximum of 2 applications per year. Do not apply a third Taurus SC treatment in the same calendar year.",
+      "kind": "warning",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-078",
+      "section_id": "sec-sf-rotation",
+      "content": "The rotation deliberately alternates repellent pyrethroids with a non-repellent so ants cannot detect the treatment and carry it back to the colony. Keep a dedicated non-repellent sprayer loaded for the Taurus SC months.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": [
+        "chem-taurus-sc",
+        "chem-barricor",
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-sf-079",
+      "section_id": "sec-sf-rotation",
+      "content": "Exterior perimeter alternates from the chemical cheat sheet if the rotation product is unavailable: Suspend SC at 0.75 fl oz per gallon, Suspend Polyzone at 0.75 fl oz per gallon, or Demand CS at 0.4 fl oz per gallon. All three are repellents - never apply them over a non-repellent treatment or over Niban granular bait.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": [
+        "chem-suspend-sc",
+        "chem-suspend-polyzone",
+        "chem-demand-cs",
+        "chem-niban"
+      ]
+    },
+    {
+      "id": "step-sf-080",
+      "section_id": "sec-sf-finished",
+      "content": "Fill out the service ticket as thoroughly as possible, including detailed notes about the services that were performed.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-081",
+      "section_id": "sec-sf-finished",
+      "content": "For new customers, fill out a Thank You card and give it to the client.",
+      "kind": "step",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-082",
+      "section_id": "sec-sf-finished",
+      "content": "Always thank the customer for their business.",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-083",
+      "section_id": "sec-sf-materials",
+      "content": "Barricor - long-lasting residual spray that is the standard for exterior treatments.",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": [
+        "chem-barricor"
+      ]
+    },
+    {
+      "id": "step-sf-084",
+      "section_id": "sec-sf-materials",
+      "content": "Onslaught FastCap - long-lasting residual spray that may be substituted for stubborn pests on exterior treatments.",
+      "kind": "step",
+      "indent": 0,
+      "position": 2,
+      "chemical_ids": [
+        "chem-onslaught-fastcap"
+      ]
+    },
+    {
+      "id": "step-sf-085",
+      "section_id": "sec-sf-materials",
+      "content": "Taurus SC - applied with a dedicated backpack sprayer up to two times per year to the perimeter to prevent ant problems. Not as good for other pests, but great for ants.",
+      "kind": "step",
+      "indent": 0,
+      "position": 3,
+      "chemical_ids": [
+        "chem-taurus-sc"
+      ]
+    },
+    {
+      "id": "step-sf-086",
+      "section_id": "sec-sf-materials",
+      "content": "Niban - long-lasting granular bait for conducive areas. Slow to work, but lasts 2-3 months and works on a wide variety of pests.",
+      "kind": "step",
+      "indent": 0,
+      "position": 4,
+      "chemical_ids": [
+        "chem-niban"
+      ]
+    },
+    {
+      "id": "step-sf-087",
+      "section_id": "sec-sf-materials",
+      "content": "Protecta Evo Express rodent stations - child and pet resistant stations for use with rodenticide if a customer chooses this add-on service.",
+      "kind": "step",
+      "indent": 0,
+      "position": 5,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-088",
+      "section_id": "sec-sf-materials",
+      "content": "Protecta Evo Landscape rodent stations - child and pet resistant rodent stations camouflaged as a rock.",
+      "kind": "step",
+      "indent": 0,
+      "position": 6,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-089",
+      "section_id": "sec-sf-materials",
+      "content": "Protecta Evo Circuit stations - child and pet resistant rodent stations camouflaged as a cable box.",
+      "kind": "step",
+      "indent": 0,
+      "position": 7,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-090",
+      "section_id": "sec-sf-materials",
+      "content": "Fasttrac Blox - our standard rodent bait. Works after only one feeding; rodents die in 5-7 days.",
+      "kind": "step",
+      "indent": 0,
+      "position": 8,
+      "chemical_ids": [
+        "chem-fasttrac-blox"
+      ]
+    },
+    {
+      "id": "step-sf-091",
+      "section_id": "sec-sf-materials",
+      "content": "Webster brush - used to knock down spiderwebs up to 15 feet high.",
+      "kind": "step",
+      "indent": 0,
+      "position": 9,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-092",
+      "section_id": "sec-sf-materials",
+      "content": "Equipment to have on the truck:",
+      "kind": "step",
+      "indent": 0,
+      "position": 10,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-093",
+      "section_id": "sec-sf-materials",
+      "content": "Flashlight.",
+      "kind": "step",
+      "indent": 1,
+      "position": 11,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-094",
+      "section_id": "sec-sf-materials",
+      "content": "Ladder, if the attic needs to be inspected.",
+      "kind": "step",
+      "indent": 1,
+      "position": 12,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-095",
+      "section_id": "sec-sf-materials",
+      "content": "Backpack sprayers - one dedicated repellent, one dedicated non-repellent.",
+      "kind": "step",
+      "indent": 1,
+      "position": 13,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-096",
+      "section_id": "sec-sf-materials",
+      "content": "B&G sprayers - one dedicated repellent, one dedicated non-repellent.",
+      "kind": "step",
+      "indent": 1,
+      "position": 14,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-097",
+      "section_id": "sec-sf-materials",
+      "content": "Respirator, if needed in an attic or crawlspace.",
+      "kind": "step",
+      "indent": 1,
+      "position": 15,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-098",
+      "section_id": "sec-sf-materials",
+      "content": "The source procedure flags the equipment list as pending internal discussion. Confirm the current standard truck load-out with your Service Manager.",
+      "kind": "tip",
+      "indent": 0,
+      "position": 16,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-099",
+      "section_id": "sec-sf-education",
+      "content": "Remember to educate the customer. Remind them that:",
+      "kind": "step",
+      "indent": 0,
+      "position": 1,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-100",
+      "section_id": "sec-sf-education",
+      "content": "Most pests come from the outside. We can stop most pests with only exterior treatments, so there is no need to treat the interior every time.",
+      "kind": "step",
+      "indent": 1,
+      "position": 2,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-101",
+      "section_id": "sec-sf-education",
+      "content": "Sticky monitors and baits are preferred if inside treatments are required.",
+      "kind": "step",
+      "indent": 1,
+      "position": 3,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-102",
+      "section_id": "sec-sf-education",
+      "content": "Severe initial infestations may take several visits to get under control.",
+      "kind": "step",
+      "indent": 1,
+      "position": 4,
+      "chemical_ids": []
+    },
+    {
+      "id": "step-sf-103",
+      "section_id": "sec-sf-education",
+      "content": "If they have any questions or concerns, it is better to call us - we will come out as soon as possible.",
+      "kind": "step",
+      "indent": 1,
+      "position": 5,
+      "chemical_ids": []
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "chem-taurus-sc",
+      "name": "Taurus SC",
+      "epa_number": "53883-279",
+      "category": "General Pest - Exterior",
+      "repellency": "non-repellent",
+      "mix_ratios": [
+        {
+          "context": "Standard mix (backpack sprayer)",
+          "ratio": "0.8 fl oz / 1 gal water"
+        },
+        {
+          "context": "Exterior perimeter - March/April rotation",
+          "ratio": "0.8 fl oz / 1 gal water"
+        },
+        {
+          "context": "Exterior perimeter - July/August rotation",
+          "ratio": "0.8 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Fipronil non-repellent. Ants cannot detect it, so they carry it back to the colony - excellent on ants, not as effective on other pests. Label restrictions you must follow: maximum 2 applications per year, and no application further than 1 ft from the structure. Apply with a dedicated non-repellent backpack sprayer to prevent contamination with repellent products. Listed on the technician cheat sheet alongside the termiticide products; the Single Family procedure uses it as the exterior perimeter non-repellent in the seasonal rotation. The source procedure marks the Taurus SC application standard as pending internal discussion."
+    },
+    {
+      "id": "chem-termidor-he",
+      "name": "Termidor HE",
+      "epa_number": "7969-329",
+      "category": "Termite",
+      "repellency": "non-repellent",
+      "mix_ratios": [
+        {
+          "context": "Standard mix",
+          "ratio": "1.6 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Termiticide. High-efficiency fipronil formulation for termite trenching and treatment. Follow label and state regulations for volume per linear foot."
+    },
+    {
+      "id": "chem-sentricon-recruit-hd",
+      "name": "Sentricon Recruit HD",
+      "epa_number": "62719-608",
+      "category": "Termite",
+      "repellency": "n/a",
+      "mix_ratios": [
+        {
+          "context": "Station placement (not a mixed product)",
+          "ratio": "1 station / 10 ft"
+        }
+      ],
+      "notes": "Termite baiting system. Placement rate, not a dilution - install one station every 10 ft around the structure."
+    },
+    {
+      "id": "chem-suspend-sc",
+      "name": "Suspend SC",
+      "epa_number": null,
+      "category": "General Pest - Exterior",
+      "repellency": "repellent",
+      "mix_ratios": [
+        {
+          "context": "Exterior perimeter application",
+          "ratio": "0.75 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Deltamethrin repellent residual. Do not apply over a non-repellent treatment or a granular bait - it will contaminate them."
+    },
+    {
+      "id": "chem-suspend-polyzone",
+      "name": "Suspend Polyzone",
+      "epa_number": null,
+      "category": "General Pest - Exterior",
+      "repellency": "repellent",
+      "mix_ratios": [
+        {
+          "context": "Standard mix (cheat sheet general list)",
+          "ratio": "1 fl oz / 1 gal water"
+        },
+        {
+          "context": "Exterior perimeter application",
+          "ratio": "0.75 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "DISCREPANCY: the technician cheat sheet lists Suspend Polyzone at 1 fl oz per gallon in the general product list and at 0.75 fl oz per gallon under Exterior Perimeter Application. Both are recorded here - confirm which rate applies to your job with your Service Manager. The source also marks this product with an asterisk but gives no matching footnote. Repellent - do not apply over non-repellents or baits."
+    },
+    {
+      "id": "chem-demand-cs",
+      "name": "Demand CS",
+      "epa_number": null,
+      "category": "General Pest - Exterior",
+      "repellency": "repellent",
+      "mix_ratios": [
+        {
+          "context": "Exterior perimeter application",
+          "ratio": "0.4 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Lambda-cyhalothrin capsule suspension, repellent. Named in the Single Family procedure as the example of what NOT to spray over a non-repellent ant treatment."
+    },
+    {
+      "id": "chem-onslaught-fastcap",
+      "name": "Onslaught FastCap",
+      "epa_number": null,
+      "category": "General Pest - Exterior",
+      "repellency": "repellent",
+      "mix_ratios": [
+        {
+          "context": "Standard mix",
+          "ratio": "1 fl oz / 1 gal water"
+        },
+        {
+          "context": "Exterior perimeter - May/June rotation",
+          "ratio": "1.0 fl oz / 1 gal water"
+        },
+        {
+          "context": "Exterior perimeter - September/October rotation",
+          "ratio": "1.0 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Long-lasting pyrethroid residual spray. May be substituted for stubborn pests on exterior treatments. Repellent - keep off areas treated with Niban or a non-repellent."
+    },
+    {
+      "id": "chem-pro-flex",
+      "name": "Pro-Flex",
+      "epa_number": null,
+      "category": "IGR",
+      "repellency": "n/a",
+      "mix_ratios": [
+        {
+          "context": "Standard mix",
+          "ratio": "1 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Listed on the technician cheat sheet at 1 fl oz per gallon with no application context given, grouped next to Tekko Pro. Confirm target pest, site, and placement with your Service Manager before use."
+    },
+    {
+      "id": "chem-tekko-pro",
+      "name": "Tekko Pro",
+      "epa_number": null,
+      "category": "IGR",
+      "repellency": "n/a",
+      "mix_ratios": [
+        {
+          "context": "Standard mix",
+          "ratio": "1 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Insect growth regulator. Breaks the reproductive cycle rather than killing adults, so pair it with a residual or bait. No repellency concern."
+    },
+    {
+      "id": "chem-fipronil-plus-c",
+      "name": "Fipronil Plus-C",
+      "epa_number": null,
+      "category": "General Pest - Exterior",
+      "repellency": "non-repellent",
+      "mix_ratios": [
+        {
+          "context": "Service calls for ants / roaches - exterior spot treatment only",
+          "ratio": "0.75 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Exterior SPOT treatment only - not a full perimeter product. Non-repellent, so use a dedicated non-repellent sprayer and do not spray a repellent over it."
+    },
+    {
+      "id": "chem-gentrol-igr",
+      "name": "Gentrol IGR",
+      "epa_number": null,
+      "category": "IGR",
+      "repellency": "n/a",
+      "mix_ratios": [
+        {
+          "context": "Interior general pest - Accusprayer (16 fl oz)",
+          "ratio": "0.125 fl oz / 16 fl oz water"
+        },
+        {
+          "context": "Interior general pest - backpack power sprayer (1 gal)",
+          "ratio": "1 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Hydroprene growth regulator for interior work. 16 fl oz mixes are solely for the Accusprayer; 1 gallon mixes are primarily for the backpack power sprayer. Pair with Alpine WSG for German roaches."
+    },
+    {
+      "id": "chem-alpine-wsg",
+      "name": "Alpine WSG",
+      "epa_number": null,
+      "category": "General Pest - Interior",
+      "repellency": "non-repellent",
+      "mix_ratios": [
+        {
+          "context": "Interior general pest - Accusprayer (16 fl oz)",
+          "ratio": "2.5 g / 16 fl oz water"
+        },
+        {
+          "context": "Interior general pest - backpack power sprayer (1 gal)",
+          "ratio": "20 g / 1 gal water"
+        },
+        {
+          "context": "Cleanout for active infestation (1 gal)",
+          "ratio": "10 g / 1 gal water"
+        }
+      ],
+      "notes": "DISCREPANCY: the cheat sheet lists Alpine WSG at 20 g per gallon under Interior General Pest Control and again at 10 g per gallon in the active-infestation cleanout section. Both rates are recorded here - confirm which applies with your Service Manager before mixing. Dinotefuran, non-repellent: roaches walk through treated areas unknowingly and transfer lethal doses back to the harborage. For German roaches, Alpine WSG plus Gentrol IGR is the preferred pure non-repellent approach. The source also marks this product with an asterisk but gives no matching footnote."
+    },
+    {
+      "id": "chem-ridesco-wg",
+      "name": "Ridesco WG",
+      "epa_number": null,
+      "category": "Cleanout / Infestation",
+      "repellency": "non-repellent",
+      "mix_ratios": [
+        {
+          "context": "Cleanout for active infestation - Accusprayer (16 fl oz)",
+          "ratio": "2.5 g / 16 fl oz water"
+        },
+        {
+          "context": "Cleanout for active infestation - backpack power sprayer (1 gal)",
+          "ratio": "20 g / 1 gal water"
+        }
+      ],
+      "notes": "Used for cleanouts, initial services, and callbacks on active ant and roach infestations, interior and exterior. Per the cheat sheet, non-repellents are used on the outside exclusively and Ridesco WG is the non-repellent for that. Active infestation work must be performed by a certified technician."
+    },
+    {
+      "id": "chem-barricor",
+      "name": "Barricor",
+      "epa_number": null,
+      "category": "General Pest - Exterior",
+      "repellency": "repellent",
+      "mix_ratios": [
+        {
+          "context": "Exterior perimeter - January/February rotation",
+          "ratio": "0.5 fl oz / 1 gal water"
+        },
+        {
+          "context": "Exterior perimeter - November/December rotation",
+          "ratio": "0.5 fl oz / 1 gal water"
+        }
+      ],
+      "notes": "Long-lasting pyrethroid residual spray and the standard for exterior perimeter treatments. Repellent - do not apply over Niban granular bait or a non-repellent treatment."
+    },
+    {
+      "id": "chem-niban",
+      "name": "Niban",
+      "epa_number": null,
+      "category": "Granular Bait",
+      "repellency": "n/a",
+      "mix_ratios": [
+        {
+          "context": "Perimeter conducive areas (per home)",
+          "ratio": "about 0.5 lb per home"
+        },
+        {
+          "context": "Treated band width",
+          "ratio": "approximately 4 ft wide in conducive areas"
+        }
+      ],
+      "notes": "Long-lasting granular bait for conducive areas: shrub beds along the home, AC drip lines, wet areas, near trash cans. Slow to work but lasts 2-3 months and works on a wide variety of pests. Apply only where Barricor, Onslaught FastCap, or Taurus SC was NOT sprayed, to prevent bait contamination."
+    },
+    {
+      "id": "chem-fasttrac-blox",
+      "name": "Fasttrac Blox",
+      "epa_number": null,
+      "category": "Rodent",
+      "repellency": "n/a",
+      "mix_ratios": [
+        {
+          "context": "Initial station loading",
+          "ratio": "4 blox per station"
+        },
+        {
+          "context": "Maintenance - light activity",
+          "ratio": "minimum 2 blox per station"
+        },
+        {
+          "context": "Bait completely consumed / heavy activity",
+          "ratio": "up to 8 blox per station"
+        }
+      ],
+      "notes": "Standard rodent bait. Works after only one feeding; rodents die in 5-7 days. Use only inside child and pet resistant Protecta Evo stations. Replace bait if it is consumed, moldy, or otherwise deteriorated. Never leave bait unsecured - replace a broken or unsecured station immediately."
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "sug-001",
+      "procedure_slug": null,
+      "author": "Marcus T.",
+      "content": "The chemical cheat sheet lists Alpine WSG at 20 grams per gallon under Interior General Pest Control and 10 grams per gallon in the active infestation cleanout section. Which rate do we use for a German roach cleanout in an occupied unit? Two of us mixed it differently on the same job last week.",
+      "status": "open",
+      "created_at": "2026-07-14T13:22:00Z"
+    },
+    {
+      "id": "sug-002",
+      "procedure_slug": "single-family-pest-prevention",
+      "author": "Danielle R.",
+      "content": "Request: add a photo requirement to the rodent station checks. If we log a photo of each Protecta Evo station at every visit, we have proof the station was secured and baited. That would have settled the disputed callback on the Rifle Range Rd account last month.",
+      "status": "accepted",
+      "created_at": "2026-06-28T09:05:00Z"
+    }
+  ]
+}

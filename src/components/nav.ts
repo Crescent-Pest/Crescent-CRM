@@ -1,4 +1,5 @@
 import {
+  BookOpen,
   CalendarCheck,
   CalendarDays,
   Camera,
@@ -16,6 +17,7 @@ const today = { href: "/today", label: "Today", icon: CalendarCheck, badge: fals
 const inspect = { href: "/capture", label: "Inspect", icon: Camera, badge: false };
 const notes = { href: "/notes/new", label: "Notes", icon: Mic, badge: false };
 const history = { href: "/history", label: "History", icon: History, badge: false };
+const procedures = { href: "/procedures", label: "Procedures", icon: BookOpen, badge: false };
 // badge: open follow-up count for the signed-in tech (red when overdue)
 const followups = { href: "/followups", label: "Follow-ups", icon: ListTodo, badge: true };
 
@@ -28,6 +30,7 @@ export const sidebarNav = [
   notes,
   history,
   followups,
+  procedures,
 ];
 
 /** Five tabs max, field-first — Dashboard, Schedule, and History stay
