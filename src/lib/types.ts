@@ -167,6 +167,15 @@ export interface StructuredActionItem {
   /** ISO date (YYYY-MM-DD) or null when no timing was mentioned */
   due_date: string | null;
   priority: ActionItemPriority;
+  /** Staff member the AI heard the task directed at — an exact full_name from
+   * the active roster, or null. Advisory: the tech confirms it before saving. */
+  assignee_name?: string | null;
+}
+
+/** A follow-up after the tech reviewed it: the AI fields plus the profile id
+ * of whoever has to do the work (defaults to the tech recording the note). */
+export interface ReviewedActionItem extends StructuredActionItem {
+  assigned_to: string;
 }
 
 /** AI-structured content of a visit note, reviewed by the tech before saving. */
@@ -197,6 +206,7 @@ export interface ActionItem {
   created_at: string;
   visit_note_id: string | null;
   tech_id: string | null;
+  assigned_to: string | null;
   description: string;
   due_date: string | null;
   priority: ActionItemPriority;
