@@ -3,9 +3,11 @@
 import { useActionState, useId } from "react";
 import { Send } from "lucide-react";
 import {
-  emptyProcedureFormState,
   suggestStepChange,
+  type ProcedureFormState,
 } from "@/lib/actions/procedures";
+
+const initialState: ProcedureFormState = { error: null, success: false };
 
 /**
  * Suggest a rewrite of one step. Any active staff member can send one; it
@@ -22,7 +24,7 @@ export function SuggestForm({
 }) {
   const [state, formAction, pending] = useActionState(
     suggestStepChange,
-    emptyProcedureFormState,
+    initialState,
   );
   const fieldId = useId();
 

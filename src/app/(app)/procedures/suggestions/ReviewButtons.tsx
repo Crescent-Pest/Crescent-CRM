@@ -3,9 +3,11 @@
 import { useActionState } from "react";
 import { Check, X } from "lucide-react";
 import {
-  emptyProcedureFormState,
   reviewSuggestion,
+  type ProcedureFormState,
 } from "@/lib/actions/procedures";
+
+const initialState: ProcedureFormState = { error: null, success: false };
 
 /**
  * Admin decision on one suggestion. Accept writes the proposed text onto the
@@ -14,7 +16,7 @@ import {
 export function ReviewButtons({ id }: { id: string }) {
   const [state, formAction, pending] = useActionState(
     reviewSuggestion,
-    emptyProcedureFormState,
+    initialState,
   );
 
   return (

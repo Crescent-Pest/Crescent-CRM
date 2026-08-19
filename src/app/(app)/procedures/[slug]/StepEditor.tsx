@@ -1,8 +1,10 @@
 "use client";
 
 import { useActionState, useId } from "react";
-import { emptyProcedureFormState, updateStep } from "@/lib/actions/procedures";
+import { updateStep, type ProcedureFormState } from "@/lib/actions/procedures";
 import type { StepKind } from "@/lib/types";
+
+const initialState: ProcedureFormState = { error: null, success: false };
 
 const KIND_LABELS: Record<StepKind, string> = {
   step: "Step",
@@ -22,10 +24,7 @@ export function StepEditor({
   kind: StepKind;
   onDone: () => void;
 }) {
-  const [state, formAction, pending] = useActionState(
-    updateStep,
-    emptyProcedureFormState,
-  );
+  const [state, formAction, pending] = useActionState(updateStep, initialState);
   const fieldId = useId();
 
   return (

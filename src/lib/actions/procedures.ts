@@ -17,17 +17,12 @@ const MIN_CONTENT = 5;
 const MAX_CONTENT = 4000;
 const MAX_REASON = 500;
 
-export const STEP_KINDS: readonly StepKind[] = ["step", "warning", "tip"];
+const STEP_KINDS: readonly StepKind[] = ["step", "warning", "tip"];
 
 export interface ProcedureFormState {
   error: string | null;
   success: boolean;
 }
-
-export const emptyProcedureFormState: ProcedureFormState = {
-  error: null,
-  success: false,
-};
 
 function field(formData: FormData, key: string) {
   const value = formData.get(key);
