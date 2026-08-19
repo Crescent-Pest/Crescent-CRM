@@ -1,0 +1,26 @@
+{
+  "demo": true,
+  "note": "PLACEHOLDER DEMO PRICING — not Crescent's real rates. Sean must review and set real numbers, then flip demo to false to hide the DEMO PRICING badge. general-inspection has no entry on purpose: inspection-only visits produce no estimate.",
+  "per_pest": {
+    "german-cockroach": { "initial_cents": 32500, "recurring_cents": 12500 },
+    "american-cockroach": { "initial_cents": 22500, "recurring_cents": 9500 },
+    "smokybrown-cockroach": { "initial_cents": 24500, "recurring_cents": 9500 },
+    "subterranean-termite": { "initial_cents": 145000, "recurring_cents": 35000 },
+    "formosan-termite": { "initial_cents": 185000, "recurring_cents": 45000 },
+    "drywood-termite": { "initial_cents": 165000, "recurring_cents": 25000 },
+    "ants": { "initial_cents": 19500, "recurring_cents": 9500 },
+    "fire-ants": { "initial_cents": 24500, "recurring_cents": 12500 },
+    "carpenter-ants": { "initial_cents": 34500, "recurring_cents": 12500 },
+    "rodents-mice": { "initial_cents": 29500, "recurring_cents": 12500 },
+    "rodents-rats": { "initial_cents": 39500, "recurring_cents": 14500 },
+    "spiders": { "initial_cents": 19500, "recurring_cents": 9500 },
+    "bed-bugs": { "initial_cents": 95000, "recurring_cents": 25000 },
+    "mosquitoes": { "initial_cents": 14500, "recurring_cents": 9500 },
+    "fleas": { "initial_cents": 32500, "recurring_cents": 12500 },
+    "wasps-hornets": { "initial_cents": 17500, "recurring_cents": 0 },
+    "carpenter-bees": { "initial_cents": 22500, "recurring_cents": 0 },
+    "silverfish": { "initial_cents": 19500, "recurring_cents": 9500 },
+    "occasional-invaders": { "initial_cents": 19500, "recurring_cents": 9500 }
+  },
+  "sqft_surcharge": { "threshold_sqft": 3000, "surcharge_cents": 5000 }
+}

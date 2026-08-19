@@ -34,3 +34,17 @@ HARD RULES:
 - `.env.import` missing? Copy `.env.import.example` and have the user fill it
   in — never ask them to paste keys into chat.
 <!-- END:nextjs-agent-rules -->
+
+# Field tools (merged in from the Crescent-Inspect repo, 2026-08-18)
+
+The pest-inspection + voice-notes app now lives in this repo:
+
+- Pages: `/capture` (photo -> AI pest ID -> treatment plan -> estimate),
+  `/history`, `/notes/new`, plus the shared `/followups` checklist.
+- API routes: `/api/identify`, `/api/plan` (reads `docs/pests/*.md` — traced
+  into the Vercel bundle via next.config.ts), `/api/structure-note`,
+  `/api/transcribe` (503 without TRANSCRIPTION_API_KEY; dictation works without it).
+- Env: `ANTHROPIC_API_KEY` required (Crescent's own Anthropic account).
+  `ANTHROPIC_MODEL` optional. `TRANSCRIPTION_API_KEY` optional.
+- Pricing is 100% code-computed from `src/data/pricing.json` (`demo: true`
+  shows a DEMO badge). Never let the AI invent prices.

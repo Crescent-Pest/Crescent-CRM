@@ -85,7 +85,7 @@ export function customerName(c: Pick<Customer, "type" | "first_name" | "last_nam
     : `${c.first_name} ${c.last_name}`.trim();
 }
 
-// ---------- Field activity (written by the Crescent Inspect app; read-only here) ----------
+// ---------- Field activity (inspections + voice notes, formerly the Crescent-Inspect app) ----------
 
 export type InspectionStatus = "draft" | "presented" | "sold";
 export type ActionItemPriority = "normal" | "urgent";
@@ -98,6 +98,12 @@ export interface PestCandidate {
   /** 0–1 */
   confidence: number;
   evidence: string[];
+}
+
+/** Result of /api/identify. Advisory until the tech confirms a pest. */
+export interface IdentifyResult {
+  candidates: PestCandidate[];
+  photo_quality_note: string;
 }
 
 export interface EstimateBreakdown {
@@ -127,15 +133,20 @@ export interface Inspection {
   notes: string | null;
 }
 
+/** One follow-up task extracted by the AI from a voice note. The tech edits
+ * these on the review screen before anything is saved. */
+export interface StructuredActionItem {
+  description: string;
+  /** ISO date (YYYY-MM-DD) or null when no timing was mentioned */
+  due_date: string | null;
+  priority: ActionItemPriority;
+}
+
 /** AI-structured content of a visit note, reviewed by the tech before saving. */
 export interface StructuredNote {
   summary: string;
   customer_commitments: string[];
-  action_items: {
-    description: string;
-    due_date: string | null;
-    priority: ActionItemPriority;
-  }[];
+  action_items: StructuredActionItem[];
   mentioned_customer: string | null;
   /** customer name the tech typed on the review screen, if any */
   customer_name?: string | null;

@@ -31,6 +31,15 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const onLoginPage = request.nextUrl.pathname.startsWith("/login");
+  const isApiRoute = request.nextUrl.pathname.startsWith("/api");
+
+  // API routes get a JSON 401 instead of a redirect to the login page.
+  if (!user && isApiRoute) {
+    return NextResponse.json(
+      { error: "Not signed in. Log in and try again." },
+      { status: 401 }
+    );
+  }
 
   if (!user && !onLoginPage) {
     const url = request.nextUrl.clone();
