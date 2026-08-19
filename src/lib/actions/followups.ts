@@ -27,5 +27,6 @@ export async function setFollowupStatus(formData: FormData) {
   if (error) console.error("setFollowupStatus failed:", error.message);
 
   revalidatePath("/followups");
+  revalidatePath("/team");
   revalidatePath("/");
 }
