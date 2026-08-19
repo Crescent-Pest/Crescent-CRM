@@ -3,6 +3,7 @@ import {
   CalendarCheck,
   CalendarDays,
   Camera,
+  ClipboardList,
   History,
   LayoutDashboard,
   ListTodo,
@@ -20,6 +21,7 @@ const history = { href: "/history", label: "History", icon: History, badge: fals
 const procedures = { href: "/procedures", label: "Procedures", icon: BookOpen, badge: false };
 // badge: open follow-up count for the signed-in tech (red when overdue)
 const followups = { href: "/followups", label: "Follow-ups", icon: ListTodo, badge: true };
+const team = { href: "/team", label: "Team", icon: ClipboardList, badge: false };
 
 export const sidebarNav = [
   dashboard,
@@ -30,6 +32,7 @@ export const sidebarNav = [
   notes,
   history,
   followups,
+  team,
   procedures,
 ];
 
