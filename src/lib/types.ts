@@ -197,6 +197,7 @@ export interface ActionItem {
   created_at: string;
   visit_note_id: string | null;
   tech_id: string | null;
+  assigned_to: string | null;
   description: string;
   due_date: string | null;
   priority: ActionItemPriority;
