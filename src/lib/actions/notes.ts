@@ -1,10 +1,19 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { StructuredActionItem, StructuredNote } from "@/lib/types";
+import type { ReviewedActionItem, StructuredNote } from "@/lib/types";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** True when the insert failed only because migration 009 hasn't been applied
+ * to this database yet (PostgREST reports an unknown column). */
+function isMissingAssignedTo(error: { code?: string; message?: string }) {
+  return (
+    (error.code === "PGRST204" || error.code === "42703") &&
+    (error.message ?? "").includes("assigned_to")
+  );
+}
 
 export interface SaveVisitNoteInput {
   transcript: string;
@@ -15,7 +24,7 @@ export interface SaveVisitNoteInput {
   customer_name: string | null;
   inspection_id: string | null;
   audio_path: string | null;
-  action_items: StructuredActionItem[];
+  action_items: ReviewedActionItem[];
 }
 
 export interface SaveVisitNoteResult {
@@ -53,7 +62,8 @@ export async function saveVisitNote(
     ? String(input.customer_name).slice(0, 200).trim() || null
     : null;
 
-  // Re-validate the (tech-edited) action items server-side.
+  // Re-validate the (tech-edited) action items server-side. An assignee the
+  // tech didn't set — or one that isn't a uuid — falls back to the creator.
   const items = (input.action_items ?? [])
     .slice(0, 20)
     .map((item) => ({
@@ -61,6 +71,10 @@ export async function saveVisitNote(
       due_date:
         item.due_date && DATE_RE.test(item.due_date) ? item.due_date : null,
       priority: item.priority === "urgent" ? "urgent" : "normal",
+      assigned_to:
+        item.assigned_to && UUID_RE.test(item.assigned_to)
+          ? item.assigned_to
+          : user.id,
     }))
     .filter((item) => item.description.length > 0);
 
@@ -87,13 +101,30 @@ export async function saveVisitNote(
   }
 
   if (items.length > 0) {
-    const { error: itemsError } = await supabase.from("action_items").insert(
-      items.map((item) => ({
-        visit_note_id: note.id,
-        tech_id: user.id,
-        ...item,
-      }))
-    );
+    const rows = items.map((item) => ({
+      visit_note_id: note.id,
+      tech_id: user.id,
+      ...item,
+    }));
+
+    let { error: itemsError } = await supabase.from("action_items").insert(rows);
+    if (itemsError && isMissingAssignedTo(itemsError)) {
+      // Pre-009 database: save the follow-ups owned by their creator rather
+      // than losing them. They re-key to assigned_to once the migration runs.
+      console.warn(
+        "action_items: assigned_to column missing — apply migration 009_assignments.sql"
+      );
+      ({ error: itemsError } = await supabase.from("action_items").insert(
+        rows.map((row) => ({
+          visit_note_id: row.visit_note_id,
+          tech_id: row.tech_id,
+          description: row.description,
+          due_date: row.due_date,
+          priority: row.priority,
+        }))
+      ));
+    }
+
     if (itemsError) {
       console.error("action_items insert failed:", itemsError);
       return {

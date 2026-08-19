@@ -7,8 +7,12 @@ import { saveVisitNote } from "@/lib/actions/notes";
 import { customerDisplayName, type CustomerLink } from "@/lib/customers";
 import { CustomerPicker } from "@/components/CustomerPicker";
 import { Recorder } from "@/components/notes/Recorder";
-import { StructuredReview } from "@/components/notes/StructuredReview";
-import type { StructuredActionItem, StructuredNote } from "@/lib/types";
+import {
+  StructuredReview,
+  matchAssignee,
+  type StaffOption,
+} from "@/components/notes/StructuredReview";
+import type { ReviewedActionItem, StructuredNote } from "@/lib/types";
 
 type Phase = "input" | "structuring" | "review";
 
@@ -21,10 +25,16 @@ const subscribeNoop = () => () => {};
 export function NoteCapture({
   recordingEnabled,
   inspectionId,
+  staff,
+  selfId,
 }: {
   /** true only when TRANSCRIPTION_API_KEY is set on the server */
   recordingEnabled: boolean;
   inspectionId: string | null;
+  /** active staff, for the per-follow-up assignee dropdown */
+  staff: StaffOption[];
+  /** signed-in tech — creator of the note and default assignee */
+  selfId: string;
 }) {
   const router = useRouter();
 
@@ -35,7 +45,7 @@ export function NoteCapture({
   const [fallbackName, setFallbackName] = useState("");
   const [audioPath, setAudioPath] = useState<string | null>(null);
   const [structured, setStructured] = useState<StructuredNote | null>(null);
-  const [items, setItems] = useState<StructuredActionItem[]>([]);
+  const [items, setItems] = useState<ReviewedActionItem[]>([]);
   const [saving, setSaving] = useState(false);
 
   // Feature-detect MediaRecorder; false during SSR so hydration agrees.
@@ -83,7 +93,13 @@ export function NoteCapture({
       if (!res.ok) throw new Error(data.error || "Something went wrong. Try again.");
       const result = data as StructuredNote;
       setStructured(result);
-      setItems(result.action_items);
+      // an AI-suggested name only sticks if it matches a real profile
+      setItems(
+        result.action_items.map((item) => ({
+          ...item,
+          assigned_to: matchAssignee(item.assignee_name, staff) ?? selfId,
+        }))
+      );
       // keep the heard name as free text so it isn't lost — the picker on the
       // review screen still offers the CRM match for one-tap confirm
       if (!customerLink && !fallbackName.trim() && result.mentioned_customer) {
@@ -151,7 +167,13 @@ export function NoteCapture({
             onFallbackNameChange={setFallbackName}
           />
         </div>
-        <StructuredReview structured={structured} items={items} onItemsChange={setItems} />
+        <StructuredReview
+          structured={structured}
+          items={items}
+          onItemsChange={setItems}
+          staff={staff}
+          selfId={selfId}
+        />
         <button type="button" onClick={handleSave} disabled={saving} className="btn-primary w-full">
           {saving ? <Loader2 size={17} className="animate-spin" /> : <Save size={17} />}
           {saving ? "Saving…" : "Save note & follow-ups"}
