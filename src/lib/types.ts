@@ -176,3 +176,73 @@ export interface ActionItem {
   status: ActionItemStatus;
   done_at: string | null;
 }
+
+// ---------- Ops manual (procedures, chemicals, and field suggestions) ----------
+
+export type StepKind = "step" | "warning" | "tip";
+export type Repellency = "repellent" | "non-repellent" | "n/a";
+export type SuggestionStatus = "open" | "accepted" | "rejected";
+
+/** Manual content uses text ids so data/procedures-seed.json and Postgres match. */
+export interface Procedure {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  /** e.g. "4x per year"; null means as-needed */
+  frequency: string | null;
+  sort: number;
+  /** ISO date */
+  updated_at: string;
+}
+
+export interface ProcedureSection {
+  id: string;
+  procedure_id: string;
+  title: string;
+  position: number;
+}
+
+export interface ProcedureStep {
+  id: string;
+  section_id: string;
+  content: string;
+  kind: StepKind;
+  /** 0 or 1 — a nested bullet under the step above it */
+  indent: number;
+  position: number;
+  /** chemicals named in this step */
+  chemical_ids: string[];
+}
+
+export interface MixRatio {
+  /** e.g. "Exterior perimeter", "Accusprayer (16 oz)" */
+  context: string;
+  /** e.g. "0.8 fl oz / 1 gal water" */
+  ratio: string;
+}
+
+export interface Chemical {
+  id: string;
+  name: string;
+  epa_number: string | null;
+  category: string;
+  repellency: Repellency;
+  mix_ratios: MixRatio[];
+  /** label restrictions and usage guidance, including flagged discrepancies */
+  notes: string | null;
+}
+
+/** A proposed replacement for one step's text. Accepting it applies the edit. */
+export interface StepSuggestion {
+  id: string;
+  created_at: string;
+  step_id: string;
+  author_id: string;
+  proposed_content: string;
+  reason: string | null;
+  status: SuggestionStatus;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+}
