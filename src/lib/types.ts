@@ -30,6 +30,12 @@ export interface Customer {
   phone_alt: string | null;
   source: string | null;
   created_at: string;
+  /** FieldRoutes customerID, set by the importer or the outbox worker's first create */
+  fieldroutes_id: number | null;
+  billing_address_line1: string | null;
+  billing_city: string | null;
+  billing_state: string | null;
+  billing_zip: string | null;
 }
 
 export interface Property {
@@ -83,6 +89,27 @@ export function customerName(c: Pick<Customer, "type" | "first_name" | "last_nam
   return c.type === "commercial"
     ? c.company_name
     : `${c.first_name} ${c.last_name}`.trim();
+}
+
+// ---------- FieldRoutes outbox (see supabase/migrations/007_fieldroutes_sync.sql) ----------
+
+export type SyncEntity = "customer";
+export type SyncAction = "create" | "update";
+export type SyncStatus = "pending" | "synced" | "failed" | "skipped";
+
+/** One "this entity changed, push it" signal. The worker re-reads the row at
+ *  sync time, so changed_fields is audit trail rather than the payload. */
+export interface SyncQueueRow {
+  id: string;
+  created_at: string;
+  entity: SyncEntity;
+  entity_id: string;
+  fr_action: SyncAction;
+  changed_fields: Record<string, unknown> | null;
+  status: SyncStatus;
+  attempts: number;
+  last_error: string | null;
+  synced_at: string | null;
 }
 
 // ---------- Field activity (inspections + voice notes, formerly the Crescent-Inspect app) ----------

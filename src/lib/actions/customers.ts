@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { enqueueCustomerSync } from "@/lib/fieldroutesSync";
 
 function str(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -29,25 +30,32 @@ export async function createCustomer(formData: FormData) {
     redirect("/customers/new?error=name");
   }
 
+  const values = {
+    type,
+    first_name,
+    last_name,
+    company_name,
+    email: orNull(str(formData, "email")),
+    phone: orNull(str(formData, "phone")),
+    phone_alt: orNull(str(formData, "phone_alt")),
+    source: orNull(str(formData, "source")),
+  };
+
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("customers")
-    .insert({
-      type,
-      first_name,
-      last_name,
-      company_name,
-      email: orNull(str(formData, "email")),
-      phone: orNull(str(formData, "phone")),
-      phone_alt: orNull(str(formData, "phone_alt")),
-      source: orNull(str(formData, "source")),
-    })
+    .insert(values)
     .select("id")
     .single();
 
   if (error || !data) {
     redirect(`/customers/new?error=${encodeURIComponent(error?.message ?? "save failed")}`);
   }
+
+  await enqueueCustomerSync(supabase, data.id, {
+    action: "customer_create",
+    fields: Object.keys(values),
+  });
 
   revalidatePath("/customers");
   redirect(`/customers/${data.id}`);
@@ -96,24 +104,28 @@ export async function updateCustomer(formData: FormData) {
     redirect(`/customers/${id}/edit?error=name`);
   }
 
+  const updates = {
+    type,
+    first_name,
+    last_name,
+    company_name,
+    email: orNull(str(formData, "email")),
+    phone: orNull(str(formData, "phone")),
+    phone_alt: orNull(str(formData, "phone_alt")),
+    source: orNull(str(formData, "source")),
+  };
+
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("customers")
-    .update({
-      type,
-      first_name,
-      last_name,
-      company_name,
-      email: orNull(str(formData, "email")),
-      phone: orNull(str(formData, "phone")),
-      phone_alt: orNull(str(formData, "phone_alt")),
-      source: orNull(str(formData, "source")),
-    })
-    .eq("id", id);
+  const { error } = await supabase.from("customers").update(updates).eq("id", id);
 
   if (error) {
     redirect(`/customers/${id}/edit?error=${encodeURIComponent(error.message)}`);
   }
+
+  await enqueueCustomerSync(supabase, id, {
+    action: "customer_update",
+    fields: Object.keys(updates),
+  });
 
   revalidatePath("/customers");
   revalidatePath(`/customers/${id}`);
@@ -125,7 +137,12 @@ export async function setCustomerStatus(formData: FormData) {
   const status = str(formData, "status") === "inactive" ? "inactive" : "active";
 
   const supabase = await createClient();
-  await supabase.from("customers").update({ status }).eq("id", id);
+  const { error } = await supabase.from("customers").update({ status }).eq("id", id);
+
+  // status maps to FieldRoutes' active/inactive flag, so it belongs in the outbox
+  if (!error) {
+    await enqueueCustomerSync(supabase, id, { action: "customer_status", status });
+  }
 
   revalidatePath(`/customers/${id}`);
   revalidatePath("/customers");
@@ -156,6 +173,10 @@ export async function addProperty(formData: FormData) {
   if (error) {
     redirect(`/customers/${customer_id}?error=${encodeURIComponent(error.message)}`);
   }
+
+  // the customer's FieldRoutes service address comes from their first active
+  // property, so any property change can move it
+  await enqueueCustomerSync(supabase, customer_id, { action: "property_added" });
 
   revalidatePath(`/customers/${customer_id}`);
   redirect(`/customers/${customer_id}`);
@@ -194,6 +215,11 @@ export async function updateProperty(formData: FormData) {
   if (error) {
     redirect(`${editPath}?error=${encodeURIComponent(error.message)}`);
   }
+
+  await enqueueCustomerSync(supabase, customer_id, {
+    action: "property_updated",
+    property_id: id,
+  });
 
   revalidatePath(`/customers/${customer_id}`);
   revalidatePath("/schedule/new");
