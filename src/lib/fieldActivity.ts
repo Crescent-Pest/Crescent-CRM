@@ -106,9 +106,12 @@ export async function fetchCustomerFieldActivity(customerId: string) {
   return { inspections, visitNotes };
 }
 
-/** Action item with tech and (via its visit note) customer context joined in */
+/** Action item with its creator (tech), its assignee, and (via its visit note)
+ * customer context joined in */
 export interface FollowupRow extends ActionItem {
   tech: { full_name: string } | null;
+  /** undefined on a pre-009 database, where the creator is the de facto owner */
+  assignee?: { full_name: string } | null;
   visit_note: {
     id: string;
     customer: Pick<
@@ -118,34 +121,56 @@ export interface FollowupRow extends ActionItem {
   } | null;
 }
 
-const FOLLOWUP_SELECT = `*,
-  tech:profiles(full_name),
-  visit_note:visit_notes(id,
+const VISIT_NOTE_SELECT = `visit_note:visit_notes(id,
     customer:customers(id, type, first_name, last_name, company_name))`;
+
+// Two FKs point at profiles once 009 lands, so both embeds need a column hint.
+const FOLLOWUP_SELECT = `*,
+  tech:profiles!tech_id(full_name),
+  assignee:profiles!assigned_to(full_name),
+  ${VISIT_NOTE_SELECT}`;
+
+// Pre-009 shape: no assigned_to column, so profiles embeds unambiguously.
+const LEGACY_FOLLOWUP_SELECT = `*,
+  tech:profiles(full_name),
+  ${VISIT_NOTE_SELECT}`;
 
 /** "Done recently" horizon — anything checked off in the last week still shows. */
 const DONE_WINDOW_DAYS = 7;
 const FOLLOWUP_LIMIT = 200;
 
-/** All open follow-ups plus recently done ones, optionally scoped to one tech. */
-export async function fetchFollowups(techId?: string | null) {
+/** All open follow-ups plus recently done ones, optionally scoped to the staff
+ * member they're assigned to. Until migration 009 is applied the assignment
+ * query errors, so this falls back to the creator-keyed view. */
+export async function fetchFollowups(assigneeId?: string | null) {
   const supabase = await createClient();
   const cutoff = new Date(
     Date.now() - DONE_WINDOW_DAYS * 24 * 60 * 60 * 1000,
   ).toISOString();
 
-  let query = supabase
-    .from("action_items")
-    .select(FOLLOWUP_SELECT)
-    .or(`status.eq.open,done_at.gte.${cutoff}`)
-    .order("due_date", { ascending: true, nullsFirst: false })
-    .order("created_at", { ascending: false })
-    .limit(FOLLOWUP_LIMIT);
-  if (techId) query = query.eq("tech_id", techId);
+  function buildQuery(select: string, filterColumn: "assigned_to" | "tech_id") {
+    const query = supabase
+      .from("action_items")
+      .select(select)
+      .or(`status.eq.open,done_at.gte.${cutoff}`)
+      .order("due_date", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: false })
+      .limit(FOLLOWUP_LIMIT);
+    return assigneeId ? query.eq(filterColumn, assigneeId) : query;
+  }
 
-  const { data, error } = await query;
-  if (error) throw new Error(`Failed to load follow-ups: ${error.message}`);
-  return (data ?? []) as unknown as FollowupRow[];
+  const { data, error } = await buildQuery(FOLLOWUP_SELECT, "assigned_to");
+  if (!error) return (data ?? []) as unknown as FollowupRow[];
+
+  console.error(
+    "follow-ups: assignment query failed (apply migration 009_assignments.sql), falling back to tech_id:",
+    error.message,
+  );
+  const legacy = await buildQuery(LEGACY_FOLLOWUP_SELECT, "tech_id");
+  if (legacy.error) {
+    throw new Error(`Failed to load follow-ups: ${legacy.error.message}`);
+  }
+  return (legacy.data ?? []) as unknown as FollowupRow[];
 }
 
 /** Open/overdue follow-up counts for the dashboard summary. Errors degrade to zero. */

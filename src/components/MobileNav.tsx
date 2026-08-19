@@ -12,7 +12,8 @@ export function MobileNav() {
   const [hasOverdue, setHasOverdue] = useState(false);
 
   // Refresh the follow-up badge on every tab change. Errors just leave the
-  // badge hidden.
+  // badge hidden — including on a database where migration 009 hasn't added
+  // action_items.assigned_to yet.
   useEffect(() => {
     let cancelled = false;
     async function loadBadge() {
@@ -25,7 +26,7 @@ export function MobileNav() {
       const { data } = await supabase
         .from("action_items")
         .select("due_date")
-        .eq("tech_id", userId)
+        .eq("assigned_to", userId)
         .eq("status", "open")
         .limit(100);
       if (cancelled || !data) return;

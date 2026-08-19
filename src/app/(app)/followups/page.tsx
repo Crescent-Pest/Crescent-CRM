@@ -23,18 +23,20 @@ export default async function FollowupsPage({
 }: {
   searchParams: Promise<{ tech?: string }>;
 }) {
+  // `tech` in the URL now means "assigned to this person"
   const { tech } = await searchParams;
-  const techId = UUID_RE.test(tech ?? "") ? tech! : null;
+  const assigneeId = UUID_RE.test(tech ?? "") ? tech! : null;
   const today = todayISO();
   const supabase = await createClient();
 
-  const [items, { data: techData }] = await Promise.all([
-    fetchFollowups(techId),
+  const [items, { data: techData }, { data: userData }] = await Promise.all([
+    fetchFollowups(assigneeId),
     supabase
       .from("profiles")
       .select("id, full_name")
       .eq("active", true)
       .order("full_name"),
+    supabase.auth.getUser(),
   ]);
   const techs = (techData ?? []) as Pick<Profile, "id" | "full_name">[];
 
@@ -88,15 +90,19 @@ export default async function FollowupsPage({
             {open.length} open
           </p>
         </div>
-        <TechFilter techs={techs} selected={techId ?? ""} />
+        <TechFilter
+          techs={techs}
+          selected={assigneeId ?? ""}
+          selfId={userData.user?.id ?? ""}
+        />
       </div>
 
       {items.length === 0 && (
         <div className="mt-6 rounded-lg border border-dashed border-line bg-card px-4 py-6 text-center md:py-10">
           <ListTodo size={28} className="mx-auto text-ink-soft" />
           <p className="mt-2 text-ink-soft">
-            {techId
-              ? "No follow-ups for this tech."
+            {assigneeId
+              ? "No follow-ups assigned to this person."
               : "No follow-ups yet — techs capture these as voice notes in Crescent Inspect."}
           </p>
         </div>

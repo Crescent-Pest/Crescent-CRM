@@ -5,7 +5,7 @@ import { formatDate } from "@/lib/format";
 import type { FollowupRow } from "@/lib/fieldActivity";
 import { customerName } from "@/lib/types";
 
-/** One follow-up row: check-off form, description, due date, tech, customer. */
+/** One follow-up row: check-off form, description, due date, assignee, customer. */
 export function FollowupItem({
   item,
   today,
@@ -16,6 +16,15 @@ export function FollowupItem({
   const done = item.status === "done";
   const overdue = !done && item.due_date !== null && item.due_date < today;
   const customer = item.visit_note?.customer ?? null;
+  // pre-009 rows have no assignee — the tech who recorded the note owns them
+  const assignee = item.assignee ?? item.tech;
+  const creatorFirstName = item.tech?.full_name.trim().split(/\s+/)[0] ?? null;
+  const fromCreator = Boolean(
+    creatorFirstName &&
+      item.assigned_to &&
+      item.tech_id &&
+      item.assigned_to !== item.tech_id
+  );
 
   return (
     <li className="border-b border-line px-3 py-2.5 last:border-b-0 md:px-4 md:py-3">
@@ -49,7 +58,8 @@ export function FollowupItem({
                 <AlertTriangle size={11} /> URGENT
               </span>
             )}
-            <span>{item.tech?.full_name ?? "Unassigned"}</span>
+            <span>{assignee?.full_name ?? "Unassigned"}</span>
+            {fromCreator && <span>from {creatorFirstName}</span>}
             {customer ? (
               <Link
                 href={`/customers/${customer.id}`}
