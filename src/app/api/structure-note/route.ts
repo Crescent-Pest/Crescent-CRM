@@ -19,6 +19,7 @@ export const maxDuration = 120;
 
 const MAX_TRANSCRIPT_CHARS = 12_000;
 const MAX_ACTION_ITEMS = 20;
+const MAX_ROSTER_NAMES = 60;
 
 // Structured-output schema: visit summary + dated follow-up tasks.
 // (Date-format constraints aren't supported by structured outputs, so the
@@ -51,8 +52,13 @@ const NOTE_SCHEMA = {
               "Real calendar date in YYYY-MM-DD, resolved from today's date. Null when no timing was mentioned.",
           },
           priority: { type: "string", enum: ["normal", "urgent"] },
+          assignee_name: {
+            type: ["string", "null"],
+            description:
+              "Exact name from the staff roster when the note directs this task at that teammate. Null otherwise.",
+          },
         },
-        required: ["description", "due_date", "priority"],
+        required: ["description", "due_date", "priority", "assignee_name"],
         additionalProperties: false,
       },
     },
@@ -73,7 +79,8 @@ Rules:
 - action_items are things the TECHNICIAN or the OFFICE must do (call the customer back, schedule a re-treat, order bait stations...). customer_commitments are things the CUSTOMER agreed to do. Keep them separate.
 - Resolve relative timing ("Friday", "in two weeks", "next month") to a real YYYY-MM-DD date using today's date given in the message. If no timing is mentioned for a task, use null — do not guess.
 - priority is "urgent" only for safety issues, active infestations getting worse, or anything the tech says is urgent/ASAP. Everything else is "normal".
-- Write descriptions as short imperatives ("Call Mrs. Harper about the quote"), one task each.`;
+- Write descriptions as short imperatives ("Call Mrs. Harper about the quote"), one task each.
+- assignee_name: when the note clearly hands a task to a named teammate ("have Joel check the stations", "Sarah needs to call them back"), set it to that person's EXACT name as written in the staff roster in the message. Otherwise use null — including when the tech is talking about themselves, when the name is only mentioned in passing, or when the name is not on the roster. Never invent a name that is not on the roster, and never guess between two similar roster names.`;
 
 interface StructureRequest {
   transcript: string;
@@ -140,9 +147,28 @@ export async function POST(request: Request) {
   const customerName = String(body.customer_name ?? "").slice(0, 200).trim();
   const extraNotes = String(body.notes ?? "").slice(0, 2000).trim();
 
+  // Roster of active staff, so the model can point a task at a teammate by
+  // name. A failed lookup just means no suggestions — never a failed note.
+  const { data: rosterData, error: rosterError } = await supabase
+    .from("profiles")
+    .select("id, full_name")
+    .eq("active", true)
+    .order("full_name")
+    .limit(MAX_ROSTER_NAMES);
+  if (rosterError) {
+    console.error("structure-note: roster lookup failed:", rosterError.message);
+  }
+  const roster = (rosterData ?? [])
+    .map((p) => String(p.full_name ?? "").trim())
+    .filter(Boolean);
+  const rosterByName = new Map(roster.map((name) => [name.toLowerCase(), name]));
+
   const today = todayInCharleston();
   const details = [
     `Today is ${today.long} (${today.iso}).`,
+    roster.length > 0
+      ? `Staff roster (active employees — the only valid assignee_name values): ${roster.join(", ")}`
+      : "Staff roster: unavailable. Always use null for assignee_name.",
     customerName
       ? `Customer name entered by the tech: ${customerName}`
       : "Customer name entered by the tech: not provided.",
@@ -192,6 +218,13 @@ export async function POST(request: Request) {
         priority: (item.priority === "urgent"
           ? "urgent"
           : "normal") as ActionItemPriority,
+        // drop anything that isn't a real roster name, whatever the model spelled
+        assignee_name:
+          rosterByName.get(
+            String(item.assignee_name ?? "")
+              .trim()
+              .toLowerCase()
+          ) ?? null,
       }))
       .filter((item) => item.description.length > 0);
 
