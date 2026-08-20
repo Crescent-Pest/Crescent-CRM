@@ -48,3 +48,36 @@ The pest-inspection + voice-notes app now lives in this repo:
   `ANTHROPIC_MODEL` optional. `TRANSCRIPTION_API_KEY` optional.
 - Pricing is 100% code-computed from `src/data/pricing.json` (`demo: true`
   shows a DEMO badge). Never let the AI invent prices.
+
+# Email notifications
+
+Follow-up email goes out through the Resend HTTP API (`src/lib/email.ts`, plain
+`fetch`, no SDK). Two triggers:
+
+- **Instant ping** — saving a visit note that assigns a follow-up to someone
+  *other than* the author emails that person. Sent from `after()` in
+  `src/lib/actions/notes.ts`, so it runs past the response and can never slow
+  or fail a tech's save.
+- **7am digest** — `GET /api/cron/digest`, scheduled by `vercel.json` at
+  `0 11 * * *` (11:00 UTC ≈ 7am Charleston in summer; it drifts an hour in
+  winter). Cron has no session, so the route uses the service-role client in
+  `src/lib/supabase/service.ts` — that module is `server-only` and must stay
+  cron-only.
+
+Addresses live on `public.profiles.email`, added by
+`supabase/migrations/010_profile_emails.sql` (also updates the
+`handle_new_user()` signup trigger). Until that migration is applied, both
+paths log and send nothing.
+
+Env vars:
+
+| Variable | Required? | Effect when missing |
+| --- | --- | --- |
+| `RESEND_API_KEY` | for any email | logs `email disabled` once, sends nothing |
+| `CRON_SECRET` | for the digest | `/api/cron/digest` returns 503 (401 on a bad `Authorization: Bearer` header) |
+| `SUPABASE_SERVICE_ROLE_KEY` | for the digest | `/api/cron/digest` returns 503 |
+| `EMAIL_FROM` | optional | falls back to `Crescent CRM <onboarding@resend.dev>` |
+| `APP_BASE_URL` | optional | links fall back to `https://crescent-crm.vercel.app` |
+
+Everything degrades silently by design: a missing key or a dead provider is
+logged and skipped, never surfaced to staff and never thrown to a caller.
