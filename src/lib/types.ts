@@ -16,6 +16,8 @@ export interface Profile {
   role: StaffRole;
   phone: string | null;
   active: boolean;
+  /** copy of auth.users.email for notifications; null before 010_profile_emails.sql */
+  email: string | null;
 }
 
 export interface Customer {
